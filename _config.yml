@@ -1,5 +1,5 @@
 # Site settings
-title: Clean Blog
+title: Learning Path
 header-img: img/home-bg.jpg
 email: aelavia93@gmail.com
 copyright_name: Akshay Elavia
@@ -8,7 +8,7 @@ baseurl: ""
 url: "http://elavia.xyz"
 twitter_username: Munchin_Jughead
 github_username:  itselavia
-facebook_username:  StartBootstrap
+facebook_username:  akshay.elavia
 email_username:  aelavia93@gmail.com
 linkedin_username: akshay-elavia-30969919
 

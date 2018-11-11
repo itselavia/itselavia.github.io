@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:      "Failure is not an option"
+title:      "Create AWS AMIs using Ansible Remote Packer Provisioner"
 subtitle:   "Many say exploration is part of our destiny, but it’s actually our duty to future generations."
-date:       2014-07-08 12:00:00
-author:     "Start Bootstrap"
+date:       2018-11-10 12:00:00
+author:     "Akshay Elavia"
 header-img: "img/post-bg-03.jpg"
 ---
 
@@ -32,7 +32,7 @@ header-img: "img/post-bg-03.jpg"
 <p>As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.</p>
 
 <a href="#">
-    <img src="{{ site.baseurl }}/img/post-sample-image.jpg" alt="Post Sample Image">
+    <img src="{{ site.baseurl }}/img/ansible-provisioner-packer.jpeg" alt="Post Sample Image">
 </a>
 <span class="caption text-muted">To go places and do things that have never been done before – that’s what living is all about.</span>
 

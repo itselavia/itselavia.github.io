@@ -9,9 +9,56 @@ header-img: "img/post-bg-03.jpg"
 
 <p>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</p>
 
+<a href="#">
+    <img src="{{ site.baseurl }}/img/ansible-provisioner-packer.jpg" alt="Post Sample Image">
+</a>
+<span class="caption text-muted">Diagram to represent the process followed and the AWS resources created</span>
+
 <p>Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.</p>
 
 <p>What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.</p>
+
+<?prettify?>
+<pre class="prettyprint">
+resource aws_instance "packer_ansible_demo" {
+    #Ubuntu 18 AMI in us-east-1 region
+    ami = "ami-0ac019f4fcb7cb7e6"
+    instance_type = "t2.micro"
+    iam_instance_profile = "${aws_iam_instance_profile.packer_instance_profile.id}"
+}
+
+data "template_file" "packer_iam_policy" {
+  template = "${file("packer_iam_policy.json")}"
+}
+
+data "aws_iam_policy_document" "instance-assume-role-policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "packer_role" {
+  name               = "packer.role"
+  assume_role_policy = "${data.aws_iam_policy_document.instance-assume-role-policy.json}"
+}
+
+resource "aws_iam_role_policy" "packer_role_policy" {
+  name   = "packer.policy"
+  role   = "${aws_iam_role.packer_role.name}"
+  policy = "${data.template_file.packer_iam_policy.rendered}"
+}
+
+resource "aws_iam_instance_profile" "packer_instance_profile" {
+  name = "packer.instance.profile"
+  role = "${aws_iam_role.packer_role.name}"
+}
+
+</pre>
 
 <p>A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.</p>
 
@@ -30,11 +77,6 @@ header-img: "img/post-bg-03.jpg"
 <h2 class="section-heading">Reaching for the Stars</h2>
 
 <p>As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.</p>
-
-<a href="#">
-    <img src="{{ site.baseurl }}/img/ansible-provisioner-packer.jpg" alt="Post Sample Image">
-</a>
-<span class="caption text-muted">Diagram to represent the process followed and the AWS resources created</span>
 
 <p>Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before.</p>
 

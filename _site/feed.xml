@@ -1,8 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-11-11T20:11:55+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Learning Path</title><subtitle>Write your site description here. It will be used as your sites meta description as well!</subtitle><entry><title type="html">Create AWS AMIs using Ansible Remote Packer Provisioner</title><link href="http://localhost:4000/2018/11/10/failure-is-not-an-option/" rel="alternate" type="text/html" title="Create AWS AMIs using Ansible Remote Packer Provisioner" /><published>2018-11-10T17:30:00+05:30</published><updated>2018-11-10T17:30:00+05:30</updated><id>http://localhost:4000/2018/11/10/failure-is-not-an-option</id><content type="html" xml:base="http://localhost:4000/2018/11/10/failure-is-not-an-option/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-11-11T20:40:55+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Learning Path</title><subtitle>Write your site description here. It will be used as your sites meta description as well!</subtitle><entry><title type="html">Create AWS AMIs using Ansible Remote Packer Provisioner</title><link href="http://localhost:4000/2018/11/10/ansible-provisioner-packer/" rel="alternate" type="text/html" title="Create AWS AMIs using Ansible Remote Packer Provisioner" /><published>2018-11-10T17:30:00+05:30</published><updated>2018-11-10T17:30:00+05:30</updated><id>http://localhost:4000/2018/11/10/ansible-provisioner-packer</id><content type="html" xml:base="http://localhost:4000/2018/11/10/ansible-provisioner-packer/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#&quot;&gt;
+    &lt;img src=&quot;/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
+&lt;/a&gt;
+&lt;span class=&quot;caption text-muted&quot;&gt;Diagram to represent the process followed and the AWS resources created&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.&lt;/p&gt;
 
 &lt;p&gt;What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.&lt;/p&gt;
+
+&lt;?prettify?&gt;
+&lt;pre class=&quot;prettyprint&quot;&gt;
+resource aws_instance &quot;packer_ansible_demo&quot; {
+    #Ubuntu 18 AMI in us-east-1 region
+    ami = &quot;ami-0ac019f4fcb7cb7e6&quot;
+    instance_type = &quot;t2.micro&quot;
+    iam_instance_profile = &quot;${aws_iam_instance_profile.packer_instance_profile.id}&quot;
+}
+
+data &quot;template_file&quot; &quot;packer_iam_policy&quot; {
+  template = &quot;${file(&quot;packer_iam_policy.json&quot;)}&quot;
+}
+
+data &quot;aws_iam_policy_document&quot; &quot;instance-assume-role-policy&quot; {
+  statement {
+    actions = [&quot;sts:AssumeRole&quot;]
+
+    principals {
+      type        = &quot;Service&quot;
+      identifiers = [&quot;ec2.amazonaws.com&quot;]
+    }
+  }
+}
+
+resource &quot;aws_iam_role&quot; &quot;packer_role&quot; {
+  name               = &quot;packer.role&quot;
+  assume_role_policy = &quot;${data.aws_iam_policy_document.instance-assume-role-policy.json}&quot;
+}
+
+resource &quot;aws_iam_role_policy&quot; &quot;packer_role_policy&quot; {
+  name   = &quot;packer.policy&quot;
+  role   = &quot;${aws_iam_role.packer_role.name}&quot;
+  policy = &quot;${data.template_file.packer_iam_policy.rendered}&quot;
+}
+
+resource &quot;aws_iam_instance_profile&quot; &quot;packer_instance_profile&quot; {
+  name = &quot;packer.instance.profile&quot;
+  role = &quot;${aws_iam_role.packer_role.name}&quot;
+}
+
+&lt;/pre&gt;
 
 &lt;p&gt;A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.&lt;/p&gt;
 
@@ -21,11 +68,6 @@
 &lt;h2 class=&quot;section-heading&quot;&gt;Reaching for the Stars&lt;/h2&gt;
 
 &lt;p&gt;As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;#&quot;&gt;
-    &lt;img src=&quot;/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
-&lt;/a&gt;
-&lt;span class=&quot;caption text-muted&quot;&gt;Diagram to represent the process followed and the AWS resources created&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before.&lt;/p&gt;
 

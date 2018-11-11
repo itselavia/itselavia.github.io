@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Create AWS AMIs using Ansible Remote Packer Provisioner"
-subtitle:   "Many say exploration is part of our destiny, but it’s actually our duty to future generations."
+subtitle:   "Use Hashicorp Packer to execute Ansible playbooks to deterministically create AWS AMIs"
 date:       2018-11-10 12:00:00
 author:     "Akshay Elavia"
 header-img: "img/post-bg-03.jpg"
@@ -34,7 +34,7 @@ header-img: "img/post-bg-03.jpg"
 <a href="#">
     <img src="{{ site.baseurl }}/img/ansible-provisioner-packer.jpg" alt="Post Sample Image">
 </a>
-<span class="caption text-muted">To go places and do things that have never been done before – that’s what living is all about.</span>
+<span class="caption text-muted">Diagram to represent the process followed and the AWS resources created</span>
 
 <p>Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before.</p>
 

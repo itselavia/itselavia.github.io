@@ -1,10 +1,10 @@
 ---
 layout:     post
-title:      "Create AWS AMIs using Ansible Remote Packer Provisioner"
-subtitle:   "Use Hashicorp Packer to execute Ansible playbooks to deterministically create AWS AMIs"
-date:       2018-11-10 12:00:00
+title:      "Enable Backend Instance Authentication for AWS ELB"
+subtitle:   "How to add application's public certificate to ELB for enhancing data-in-transit security"
+date:       2018-10-08 12:00:00
 author:     "Akshay Elavia"
-header-img: "img/post-bg-03.jpg"
+header-img: "img/post-bg-06.jpg"
 ---
 
 <p>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</p>
@@ -17,48 +17,6 @@ header-img: "img/post-bg-03.jpg"
 <p>Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.</p>
 
 <p>What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.</p>
-
-<?prettify?>
-<pre class="prettyprint linenums">
-resource aws_instance "packer_ansible_demo" {
-    #Ubuntu 18 AMI in us-east-1 region
-    ami = "ami-0ac019f4fcb7cb7e6"
-    instance_type = "t2.micro"
-    iam_instance_profile = "${aws_iam_instance_profile.packer_instance_profile.id}"
-}
-
-data "template_file" "packer_iam_policy" {
-  template = "${file("packer_iam_policy.json")}"
-}
-
-data "aws_iam_policy_document" "instance-assume-role-policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
-    }
-  }
-}
-
-resource "aws_iam_role" "packer_role" {
-  name               = "packer.role"
-  assume_role_policy = "${data.aws_iam_policy_document.instance-assume-role-policy.json}"
-}
-
-resource "aws_iam_role_policy" "packer_role_policy" {
-  name   = "packer.policy"
-  role   = "${aws_iam_role.packer_role.name}"
-  policy = "${data.template_file.packer_iam_policy.rendered}"
-}
-
-resource "aws_iam_instance_profile" "packer_instance_profile" {
-  name = "packer.instance.profile"
-  role = "${aws_iam_role.packer_role.name}"
-}
-
-</pre>
 
 <p>A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.</p>
 

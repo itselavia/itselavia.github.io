@@ -1,10 +1,10 @@
 ---
 layout:     post
-title:      "Create AWS AMIs using Ansible Remote Packer Provisioner"
-subtitle:   "Use Hashicorp Packer to execute Ansible playbooks to deterministically create AWS AMIs"
-date:       2018-11-10 12:00:00
+title:      "Create Encrypted AWS AMIs using Hashicorp Packer"
+subtitle:   "Use Packer to encrypt the root EBS volume of the AWS AMIs for achieving encryption-at-rest"
+date:       2018-10-20 12:00:00
 author:     "Akshay Elavia"
-header-img: "img/post-bg-03.jpg"
+header-img: "img/post-bg-02.jpg"
 ---
 
 <p>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</p>

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 <generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
-<link href="http://elavia.xyz/feed.xml" rel="self" type="application/atom+xml" />
-<link href="http://elavia.xyz/" rel="alternate" type="text/html" />
-<updated>2020-01-03T00:47:21-08:00</updated>
-<id>http://elavia.xyz/</id>
-<subtitle>Write your site description here. It will be used as your sites meta description as well!</subtitle>
+<link href="https://itselavia.github.io/feed.xml" rel="self" type="application/atom+xml" />
+<link href="https://itselavia.github.io/" rel="alternate" type="text/html" />
+<updated>2020-01-03T01:12:29-08:00</updated>
+<id>https://itselavia.github.io/</id>
+<subtitle>A technical blog documenting topics about cloud, security and DevOps</subtitle>
 <entry>
 <title>Create AWS AMIs using Ansible Remote Packer Provisioner</title>
-<link href="http://elavia.xyz/2018/11/10/ansible-provisioner-packer/" rel="alternate" type="text/html" title="Create AWS AMIs using Ansible Remote Packer Provisioner" />
+<link href="https://itselavia.github.io/2018/11/10/ansible-provisioner-packer/" rel="alternate" type="text/html" title="Create AWS AMIs using Ansible Remote Packer Provisioner" />
 <published>2018-11-10T04:00:00-08:00</published>
 <updated>2018-11-10T04:00:00-08:00</updated>
-<id>http://elavia.xyz/2018/11/10/ansible-provisioner-packer</id>
-<content type="html" xml:base="http://elavia.xyz/2018/11/10/ansible-provisioner-packer/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman&#39;s earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
+<id>https://itselavia.github.io/2018/11/10/ansible-provisioner-packer</id>
+<content type="html" xml:base="https://itselavia.github.io/2018/11/10/ansible-provisioner-packer/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman&#39;s earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;
     &lt;img src=&quot;{{ site.baseurl }}/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
@@ -96,11 +96,11 @@ resource &quot;aws_iam_instance_profile&quot; &quot;packer_instance_profile&quot
 </entry>
 <entry>
 <title>Create Encrypted AWS AMIs using Hashicorp Packer</title>
-<link href="http://elavia.xyz/2018/10/20/encrypted-ami-packer/" rel="alternate" type="text/html" title="Create Encrypted AWS AMIs using Hashicorp Packer" />
+<link href="https://itselavia.github.io/2018/10/20/encrypted-ami-packer/" rel="alternate" type="text/html" title="Create Encrypted AWS AMIs using Hashicorp Packer" />
 <published>2018-10-20T05:00:00-07:00</published>
 <updated>2018-10-20T05:00:00-07:00</updated>
-<id>http://elavia.xyz/2018/10/20/encrypted-ami-packer</id>
-<content type="html" xml:base="http://elavia.xyz/2018/10/20/encrypted-ami-packer/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman&#39;s earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
+<id>https://itselavia.github.io/2018/10/20/encrypted-ami-packer</id>
+<content type="html" xml:base="https://itselavia.github.io/2018/10/20/encrypted-ami-packer/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman&#39;s earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;
     &lt;img src=&quot;{{ site.baseurl }}/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
@@ -184,11 +184,11 @@ resource &quot;aws_iam_instance_profile&quot; &quot;packer_instance_profile&quot
 </entry>
 <entry>
 <title>Enable Backend Instance Authentication for AWS ELB</title>
-<link href="http://elavia.xyz/2018/10/08/backend-authentication-elb/" rel="alternate" type="text/html" title="Enable Backend Instance Authentication for AWS ELB" />
+<link href="https://itselavia.github.io/2018/10/08/backend-authentication-elb/" rel="alternate" type="text/html" title="Enable Backend Instance Authentication for AWS ELB" />
 <published>2018-10-08T05:00:00-07:00</published>
 <updated>2018-10-08T05:00:00-07:00</updated>
-<id>http://elavia.xyz/2018/10/08/backend-authentication-elb</id>
-<content type="html" xml:base="http://elavia.xyz/2018/10/08/backend-authentication-elb/">&lt;p&gt;While solutioning and implementing cloud architectures, applications that need to meet compliance standards often require Encryption-in-transit as one of the fundamental security guardrail.&lt;/p&gt;
+<id>https://itselavia.github.io/2018/10/08/backend-authentication-elb</id>
+<content type="html" xml:base="https://itselavia.github.io/2018/10/08/backend-authentication-elb/">&lt;p&gt;While solutioning and implementing cloud architectures, applications that need to meet compliance standards often require Encryption-in-transit as one of the fundamental security guardrail.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;
     &lt;img src=&quot;{{ site.baseurl }}/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;

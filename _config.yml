@@ -1,15 +1,15 @@
 # Site settings
 title: Learning Path
 header-img: img/home-bg.jpg
-email: aelavia93@gmail.com
+email: akshay.elavia@gmail.com
 copyright_name: Akshay Elavia
-description: "Write your site description here. It will be used as your sites meta description as well!"
+description: "A technical blog documenting topics about cloud, security and DevOps"
 baseurl: ""
-url: "http://elavia.xyz"
+url: "https://itselavia.github.io"
 twitter_username: Munchin_Jughead
 github_username:  itselavia
 facebook_username:  akshay.elavia
-email_username:  aelavia93@gmail.com
+email_username:  akshay.elavia@gmail.com
 linkedin_username: akshay-elavia-30969919
 
 # Google Analytics

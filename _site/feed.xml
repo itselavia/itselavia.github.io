@@ -1,11 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-11-11T22:37:44+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Learning Path</title><subtitle>Write your site description here. It will be used as your sites meta description as well!</subtitle><entry><title type="html">Create AWS AMIs using Ansible Remote Packer Provisioner</title><link href="http://localhost:4000/2018/11/10/ansible-provisioner-packer/" rel="alternate" type="text/html" title="Create AWS AMIs using Ansible Remote Packer Provisioner" /><published>2018-11-10T17:30:00+05:30</published><updated>2018-11-10T17:30:00+05:30</updated><id>http://localhost:4000/2018/11/10/ansible-provisioner-packer</id><content type="html" xml:base="http://localhost:4000/2018/11/10/ansible-provisioner-packer/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
+<link href="http://elavia.xyz/feed.xml" rel="self" type="application/atom+xml" />
+<link href="http://elavia.xyz/" rel="alternate" type="text/html" />
+<updated>2020-01-03T00:47:21-08:00</updated>
+<id>http://elavia.xyz/</id>
+<subtitle>Write your site description here. It will be used as your sites meta description as well!</subtitle>
+<entry>
+<title>Create AWS AMIs using Ansible Remote Packer Provisioner</title>
+<link href="http://elavia.xyz/2018/11/10/ansible-provisioner-packer/" rel="alternate" type="text/html" title="Create AWS AMIs using Ansible Remote Packer Provisioner" />
+<published>2018-11-10T04:00:00-08:00</published>
+<updated>2018-11-10T04:00:00-08:00</updated>
+<id>http://elavia.xyz/2018/11/10/ansible-provisioner-packer</id>
+<content type="html" xml:base="http://elavia.xyz/2018/11/10/ansible-provisioner-packer/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman&#39;s earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;
-    &lt;img src=&quot;/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
+    &lt;img src=&quot;{{ site.baseurl }}/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
 &lt;/a&gt;
 &lt;span class=&quot;caption text-muted&quot;&gt;Diagram to represent the process followed and the AWS resources created&lt;/span&gt;&lt;/p&gt;
 
-&lt;p&gt;Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.&lt;/p&gt;
+&lt;p&gt;Science cuts two ways, of course; its products can be used for both good and evil. But there&#39;s no turning back from science. The early warnings about technological dangers also come from science.&lt;/p&gt;
 
 &lt;p&gt;What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.&lt;/p&gt;
 
@@ -51,7 +65,7 @@ resource &quot;aws_iam_instance_profile&quot; &quot;packer_instance_profile&quot
 
 &lt;/pre&gt;
 
-&lt;p&gt;A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.&lt;/p&gt;
+&lt;p&gt;A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That&#39;s how I felt seeing the Earth for the first time. I could not help but love and cherish her.&lt;/p&gt;
 
 &lt;p&gt;For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.&lt;/p&gt;
 
@@ -73,14 +87,27 @@ resource &quot;aws_iam_instance_profile&quot; &quot;packer_instance_profile&quot
 
 &lt;p&gt;As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our nature, Man must explore, and this is exploration at its greatest.&lt;/p&gt;
 
-&lt;p&gt;Placeholder text by &lt;a href=&quot;http://spaceipsum.com/&quot;&gt;Space Ipsum&lt;/a&gt;. Photographs by &lt;a href=&quot;https://www.flickr.com/photos/nasacommons/&quot;&gt;NASA on The Commons&lt;/a&gt;.&lt;/p&gt;</content><author><name>Akshay Elavia</name></author><summary type="html">Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</summary></entry><entry><title type="html">Create Encrypted AWS AMIs using Hashicorp Packer</title><link href="http://localhost:4000/2018/10/20/encrypted-ami-packer/" rel="alternate" type="text/html" title="Create Encrypted AWS AMIs using Hashicorp Packer" /><published>2018-10-20T17:30:00+05:30</published><updated>2018-10-20T17:30:00+05:30</updated><id>http://localhost:4000/2018/10/20/encrypted-ami-packer</id><content type="html" xml:base="http://localhost:4000/2018/10/20/encrypted-ami-packer/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
+&lt;p&gt;Placeholder text by &lt;a href=&quot;http://spaceipsum.com/&quot;&gt;Space Ipsum&lt;/a&gt;. Photographs by &lt;a href=&quot;https://www.flickr.com/photos/nasacommons/&quot;&gt;NASA on The Commons&lt;/a&gt;.&lt;/p&gt;
+</content>
+<author>
+<name>Akshay Elavia</name>
+</author>
+<summary>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman&#39;s earth, if free men make it, will be truly round: a globe in practice, not in theory.</summary>
+</entry>
+<entry>
+<title>Create Encrypted AWS AMIs using Hashicorp Packer</title>
+<link href="http://elavia.xyz/2018/10/20/encrypted-ami-packer/" rel="alternate" type="text/html" title="Create Encrypted AWS AMIs using Hashicorp Packer" />
+<published>2018-10-20T05:00:00-07:00</published>
+<updated>2018-10-20T05:00:00-07:00</updated>
+<id>http://elavia.xyz/2018/10/20/encrypted-ami-packer</id>
+<content type="html" xml:base="http://elavia.xyz/2018/10/20/encrypted-ami-packer/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman&#39;s earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;
-    &lt;img src=&quot;/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
+    &lt;img src=&quot;{{ site.baseurl }}/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
 &lt;/a&gt;
 &lt;span class=&quot;caption text-muted&quot;&gt;Diagram to represent the process followed and the AWS resources created&lt;/span&gt;&lt;/p&gt;
 
-&lt;p&gt;Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.&lt;/p&gt;
+&lt;p&gt;Science cuts two ways, of course; its products can be used for both good and evil. But there&#39;s no turning back from science. The early warnings about technological dangers also come from science.&lt;/p&gt;
 
 &lt;p&gt;What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.&lt;/p&gt;
 
@@ -126,7 +153,7 @@ resource &quot;aws_iam_instance_profile&quot; &quot;packer_instance_profile&quot
 
 &lt;/pre&gt;
 
-&lt;p&gt;A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.&lt;/p&gt;
+&lt;p&gt;A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That&#39;s how I felt seeing the Earth for the first time. I could not help but love and cherish her.&lt;/p&gt;
 
 &lt;p&gt;For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.&lt;/p&gt;
 
@@ -148,18 +175,31 @@ resource &quot;aws_iam_instance_profile&quot; &quot;packer_instance_profile&quot
 
 &lt;p&gt;As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our nature, Man must explore, and this is exploration at its greatest.&lt;/p&gt;
 
-&lt;p&gt;Placeholder text by &lt;a href=&quot;http://spaceipsum.com/&quot;&gt;Space Ipsum&lt;/a&gt;. Photographs by &lt;a href=&quot;https://www.flickr.com/photos/nasacommons/&quot;&gt;NASA on The Commons&lt;/a&gt;.&lt;/p&gt;</content><author><name>Akshay Elavia</name></author><summary type="html">Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</summary></entry><entry><title type="html">Enable Backend Instance Authentication for AWS ELB</title><link href="http://localhost:4000/2018/10/08/backend-authentication-elb/" rel="alternate" type="text/html" title="Enable Backend Instance Authentication for AWS ELB" /><published>2018-10-08T17:30:00+05:30</published><updated>2018-10-08T17:30:00+05:30</updated><id>http://localhost:4000/2018/10/08/backend-authentication-elb</id><content type="html" xml:base="http://localhost:4000/2018/10/08/backend-authentication-elb/">&lt;p&gt;Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.&lt;/p&gt;
+&lt;p&gt;Placeholder text by &lt;a href=&quot;http://spaceipsum.com/&quot;&gt;Space Ipsum&lt;/a&gt;. Photographs by &lt;a href=&quot;https://www.flickr.com/photos/nasacommons/&quot;&gt;NASA on The Commons&lt;/a&gt;.&lt;/p&gt;
+</content>
+<author>
+<name>Akshay Elavia</name>
+</author>
+<summary>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman&#39;s earth, if free men make it, will be truly round: a globe in practice, not in theory.</summary>
+</entry>
+<entry>
+<title>Enable Backend Instance Authentication for AWS ELB</title>
+<link href="http://elavia.xyz/2018/10/08/backend-authentication-elb/" rel="alternate" type="text/html" title="Enable Backend Instance Authentication for AWS ELB" />
+<published>2018-10-08T05:00:00-07:00</published>
+<updated>2018-10-08T05:00:00-07:00</updated>
+<id>http://elavia.xyz/2018/10/08/backend-authentication-elb</id>
+<content type="html" xml:base="http://elavia.xyz/2018/10/08/backend-authentication-elb/">&lt;p&gt;While solutioning and implementing cloud architectures, applications that need to meet compliance standards often require Encryption-in-transit as one of the fundamental security guardrail.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;
-    &lt;img src=&quot;/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
+    &lt;img src=&quot;{{ site.baseurl }}/img/ansible-provisioner-packer.jpg&quot; alt=&quot;Post Sample Image&quot; /&gt;
 &lt;/a&gt;
 &lt;span class=&quot;caption text-muted&quot;&gt;Diagram to represent the process followed and the AWS resources created&lt;/span&gt;&lt;/p&gt;
 
-&lt;p&gt;Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.&lt;/p&gt;
+&lt;p&gt;Science cuts two ways, of course; its products can be used for both good and evil. But there&#39;s no turning back from science. The early warnings about technological dangers also come from science.&lt;/p&gt;
 
 &lt;p&gt;What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.&lt;/p&gt;
 
-&lt;p&gt;A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.&lt;/p&gt;
+&lt;p&gt;A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That&#39;s how I felt seeing the Earth for the first time. I could not help but love and cherish her.&lt;/p&gt;
 
 &lt;p&gt;For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.&lt;/p&gt;
 
@@ -181,4 +221,11 @@ resource &quot;aws_iam_instance_profile&quot; &quot;packer_instance_profile&quot
 
 &lt;p&gt;As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our nature, Man must explore, and this is exploration at its greatest.&lt;/p&gt;
 
-&lt;p&gt;Placeholder text by &lt;a href=&quot;http://spaceipsum.com/&quot;&gt;Space Ipsum&lt;/a&gt;. Photographs by &lt;a href=&quot;https://www.flickr.com/photos/nasacommons/&quot;&gt;NASA on The Commons&lt;/a&gt;.&lt;/p&gt;</content><author><name>Akshay Elavia</name></author><summary type="html">Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</summary></entry></feed>
+&lt;p&gt;Placeholder text by &lt;a href=&quot;http://spaceipsum.com/&quot;&gt;Space Ipsum&lt;/a&gt;. Photographs by &lt;a href=&quot;https://www.flickr.com/photos/nasacommons/&quot;&gt;NASA on The Commons&lt;/a&gt;.&lt;/p&gt;
+</content>
+<author>
+<name>Akshay Elavia</name>
+</author>
+<summary>While solutioning and implementing cloud architectures, applications that need to meet compliance standards often require Encryption-in-transit as one of the fundamental security guardrail.</summary>
+</entry>
+</feed>

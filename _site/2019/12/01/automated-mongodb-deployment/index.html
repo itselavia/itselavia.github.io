@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A technical blog documenting topics about cloud, security and DevOps">
 
-    <title>About - Learning Path</title>
+    <title>Automated deployment of MongoDB cluster to AWS using Terraform - Learning Path</title>
 
-    <link rel="canonical" href="http://localhost:4000/about/">
+    <link rel="canonical" href="http://localhost:4000/2019/12/01/automated-mongodb-deployment/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -84,33 +84,133 @@
 </nav>
 
 
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/about-bg.jpg')">
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/post-bg-03.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h1>About</h1>
-                    <hr class="small">
-                    <span class="subheading"></span>
+                <div class="post-heading">
+                    <h1>Automated deployment of MongoDB cluster to AWS using Terraform</h1>
+                    
+                    <h2 class="subheading">An automated setup to deploy a MongoDB Cluster with a Replica Set (1 Primary, n Secondary nodes) to AWS with Terraform</h2>
+                    
+                    <span class="meta">Posted by Akshay Elavia on December 1, 2019</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
-		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-			<p>I'm Akshay Elavia, a software guy, comedy nerd and spicy memes aficionado. I maintain this blog to document my learnings along my career. Also, it helps me polish my technical writing and diagramming skills which I feel is the most underrated quality for software professionals. The topics cover mainly cloud, security and DevOps technologies with a slight leaning towards infrastructure automation and containerization.</p>
-<p>I have worked in this domain in large and medium sized companies in India for over 4 years. Currently, I'm pursuing my Masters Degree in Software Engineering from San Jose State University.</p>
-<p>Please feel free to reach out to me on any of the platforms listed below regarding any particular post or feedback. I have relied heavily on blogs like these to learn new things while starting out, and I can't stress enough how instrumental they have been in solidifying my conceptual understanding. It's my attempt to give back to the community which has showered me with such great learning. Hope you find some of my writing helpful!</p>
-		</div>
-	</div>
-</div>
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<p>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</p>
+
+<p><a href="#">
+    <img src="/img/MongoDB-Replica-Set-Deployment-Architecture.png" alt="Mongo Cluster Deployment Diagram" />
+</a>
+<span class="caption text-muted">Diagram to represent the process followed and the AWS resources created</span></p>
+
+<p>Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.</p>
+
+<p>What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.</p>
+
+<?prettify?>
+<pre class="prettyprint linenums">
+resource aws_instance "packer_ansible_demo" {
+    #Ubuntu 18 AMI in us-east-1 region
+    ami = "ami-0ac019f4fcb7cb7e6"
+    instance_type = "t2.micro"
+    iam_instance_profile = "${aws_iam_instance_profile.packer_instance_profile.id}"
+}
+
+data "template_file" "packer_iam_policy" {
+  template = "${file("packer_iam_policy.json")}"
+}
+
+data "aws_iam_policy_document" "instance-assume-role-policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "packer_role" {
+  name               = "packer.role"
+  assume_role_policy = "${data.aws_iam_policy_document.instance-assume-role-policy.json}"
+}
+
+resource "aws_iam_role_policy" "packer_role_policy" {
+  name   = "packer.policy"
+  role   = "${aws_iam_role.packer_role.name}"
+  policy = "${data.template_file.packer_iam_policy.rendered}"
+}
+
+resource "aws_iam_instance_profile" "packer_instance_profile" {
+  name = "packer.instance.profile"
+  role = "${aws_iam_role.packer_role.name}"
+}
+
+</pre>
+
+<p>A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.</p>
+
+<p>For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.</p>
+
+<h2 class="section-heading">The Final Frontier</h2>
+
+<p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+
+<p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+
+<blockquote>The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered prophecy. We predict too much for the next year and yet far too little for the next ten.</blockquote>
+
+<p>Spaceflights cannot be stopped. This is not the work of any one man or even a group of men. It is a historical process which mankind is carrying out in accordance with the natural laws of human development.</p>
+
+<h2 class="section-heading">Reaching for the Stars</h2>
+
+<p>As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.</p>
+
+<p>Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before.</p>
+
+<p>As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our nature, Man must explore, and this is exploration at its greatest.</p>
+
+<p>Placeholder text by <a href="http://spaceipsum.com/">Space Ipsum</a>. Photographs by <a href="https://www.flickr.com/photos/nasacommons/">NASA on The Commons</a>.</p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/11/10/ansible-provisioner-packer/" data-toggle="tooltip" data-placement="top" title="Create AWS AMIs using Ansible Remote Packer Provisioner">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- JustComments Div-->
+        <div
+            class="just-comments"
+            data-allowguests="true"
+            data-apikey="6463802b-5d5f-49d1-9352-5f4a8b56f2f6">
+        </div>
+
+    </div>
+</article>
 
 <hr>
+
 
     <!-- Footer -->
 <footer>

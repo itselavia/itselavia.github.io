@@ -4,7 +4,7 @@ title:      "Automated deployment of MongoDB cluster to AWS using Terraform"
 subtitle:   "An automated setup to deploy a MongoDB Cluster with a Replica Set (1 Primary, n Secondary nodes) to AWS with Terraform"
 date:       2019-12-01 12:00:00
 author:     "Akshay Elavia"
-header-img: "img/post-bg-14.jpg"
+header-img: "img/post-bg-12.jpg"
 ---
 
 <p>Deploying a cluster is hard. Deploying a database cluster is harder. Deploying a database cluster repeatedly to the cloud is an unimaginable headache. Nowadays, IaC tools allows teams to automatically provision the complex intertwined cloud infrastructure in a deterministic manner. There can be multiple reasons why you would want to invest efforts into writing code for automating the deployment of a database cluster:</p>

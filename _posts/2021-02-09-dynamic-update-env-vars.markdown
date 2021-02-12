@@ -98,3 +98,54 @@ The overall steps are depicted in the below diagram. The source code is availabl
     <img src="{{ site.baseurl }}/img/flow-diagram.png" alt="Flow Diagram for Dynamically Updating Environment Variables" style="display: block;margin-left: auto;margin-right: auto;">
 </a>
 <span class="caption text-muted">Flow Diagram for Dynamically Updating Environment Variables</span>
+<h5 class="section-heading">Demo</h5>
+<ul>
+<li>Create a ConfigMap with environment variables KEY1=VAL1 and KEY2=VAL2</li> 
+<pre class="prettyprint">
+kubectl apply -f https://raw.githubusercontent.com/itselavia/dynamic-update-configmap-env-vars/main/configmap.yaml
+</pre>
+
+<li>Create a pod which refers the ConfigMap and mounts its contents to the /config directory inside the pod.</li>
+<pre class="prettyprint">
+kubectl apply -f https://raw.githubusercontent.com/itselavia/dynamic-update-configmap-env-vars/main/pod.yaml
+</pre>
+
+<li>Create a Service to expose the pod</li> 
+<pre class="prettyprint">
+kubectl apply -f https://raw.githubusercontent.com/itselavia/dynamic-update-configmap-env-vars/main/service.yaml
+</pre>
+
+<li>Create a test pod to access the application</li> 
+<pre class="prettyprint">
+kubectl run curl-test --image=radial/busyboxplus:curl -i --tty --rm
+</pre>
+
+<li>Access the application by querying for the value of KEY1</li> 
+<pre class="prettyprint">
+curl http://env-svc:8080/getEnvValue?var=KEY1
+VAL1
+</pre>
+
+<li>Edit the ConfigMap and change the value of KEY1</li> 
+<pre class="prettyprint">
+kubectl edit cm env-vars
+</pre>
+<pre class="prettyprint">
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: env-vars
+data:
+    KEY1: NEW_VAL1
+    KEY2: VAL2
+</pre>
+
+<li>Wait for 30-60 seconds and query for the value of KEY1</li> 
+<pre class="prettyprint">
+curl http://env-svc:8080/getEnvValue?var=KEY1
+NEW_VAL1
+</pre>
+</ul>
+<p>
+Note: The time period for synchronization between API server and Kubelet is set using the <a href="https://github.com/kubernetes/kubernetes/blob/b2b8c1f18d1056db23c1cd377d6dc3dd4fb4dcc1/staging/src/k8s.io/kubelet/config/v1beta1/types.go#L105" target="_blank">--sync-frequency</a> parameter to kubelet config 
+</p>

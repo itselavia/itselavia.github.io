@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://itselavia.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://itselavia.github.io/" rel="alternate" type="text/html" /><updated>2021-02-12T14:17:56+05:30</updated><id>https://itselavia.github.io/feed.xml</id><title type="html">Learning Orbit</title><subtitle>A technical blog documenting topics about cloud, security and DevOps</subtitle><entry><title type="html">Dynamically Update Pod’s Environment Variables</title><link href="https://itselavia.github.io/2021/02/09/dynamic-update-env-vars/" rel="alternate" type="text/html" title="Dynamically Update Pod’s Environment Variables" /><published>2021-02-09T17:30:00+05:30</published><updated>2021-02-09T17:30:00+05:30</updated><id>https://itselavia.github.io/2021/02/09/dynamic-update-env-vars</id><content type="html" xml:base="https://itselavia.github.io/2021/02/09/dynamic-update-env-vars/">&lt;p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://itselavia.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://itselavia.github.io/" rel="alternate" type="text/html" /><updated>2021-02-12T14:54:43+05:30</updated><id>https://itselavia.github.io/feed.xml</id><title type="html">Learning Orbit</title><subtitle>A technical blog documenting topics about cloud, security and DevOps</subtitle><entry><title type="html">Dynamically Update Pod’s Environment Variables</title><link href="https://itselavia.github.io/2021/02/09/dynamic-update-env-vars/" rel="alternate" type="text/html" title="Dynamically Update Pod’s Environment Variables" /><published>2021-02-09T17:30:00+05:30</published><updated>2021-02-09T17:30:00+05:30</updated><id>https://itselavia.github.io/2021/02/09/dynamic-update-env-vars</id><content type="html" xml:base="https://itselavia.github.io/2021/02/09/dynamic-update-env-vars/">&lt;p&gt;
 It's a widely accepted practice to inject the environment variables into pods from ConfigMaps. This allows for more dynamic deployment of applications where the runtime properties need not be hardcoded into the application. Once the ConfigMap with the required key value pairs is created, all its entries can be used as environment variables for a pod. This can be configured as follows: 
 &lt;?prettify?&gt; &lt;/p&gt;
 &lt;pre class=&quot;prettyprint&quot;&gt;
@@ -88,7 +88,58 @@ The overall steps are depicted in the below diagram. The source code is availabl
 &lt;p&gt;&lt;a href=&quot;#&quot;&gt;
     &lt;img src=&quot;/img/flow-diagram.png&quot; alt=&quot;Flow Diagram for Dynamically Updating Environment Variables&quot; style=&quot;display: block;margin-left: auto;margin-right: auto;&quot; /&gt;
 &lt;/a&gt;
-&lt;span class=&quot;caption text-muted&quot;&gt;Flow Diagram for Dynamically Updating Environment Variables&lt;/span&gt;&lt;/p&gt;</content><author><name>Akshay Elavia</name></author><summary type="html">It's a widely accepted practice to inject the environment variables into pods from ConfigMaps. This allows for more dynamic deployment of applications where the runtime properties need not be hardcoded into the application. Once the ConfigMap with the required key value pairs is created, all its entries can be used as environment variables for a pod. This can be configured as follows: apiVersion: v1 kind: Pod metadata: name: env-test-pod labels: app: env-test spec: containers: - name: env-test-container image: itselavia/dynamic-update-env envFrom: - configMapRef: name: env-vars But, there are some use cases where the the environment variables needs to be modified and the application needs to react to those changes. This creates a bit of an operational issue because Kubernetes does not automatically restart the pod or updates its environment variables if a referenced ConfigMap is updated. However, Kubernetes does update the volume mounts of the pod if the ConfigMap is mounted to the pod. So the basic idea is alongwith setting the environment variables using envFrom and configMapRef, we also mount the ConfigMap to the pod at a specific directory. This is configured as follows: apiVersion: v1 kind: Pod metadata: name: env-test-pod labels: app: env-test spec: containers: - name: env-test-container image: itselavia/dynamic-update-env envFrom: - configMapRef: name: env-vars volumeMounts: - mountPath: /config name: env-volume volumes: - name: env-volume configMap: name: env-vars</summary></entry><entry><title type="html">Automated deployment of MongoDB cluster to AWS using Terraform</title><link href="https://itselavia.github.io/2019/12/01/automated-mongodb-deployment/" rel="alternate" type="text/html" title="Automated deployment of MongoDB cluster to AWS using Terraform" /><published>2019-12-01T17:30:00+05:30</published><updated>2019-12-01T17:30:00+05:30</updated><id>https://itselavia.github.io/2019/12/01/automated-mongodb-deployment</id><content type="html" xml:base="https://itselavia.github.io/2019/12/01/automated-mongodb-deployment/">&lt;p&gt;Deploying a cluster is hard. Deploying a database cluster is harder. Deploying a database cluster repeatedly to the cloud is an unimaginable headache. Nowadays, IaC tools allows teams to automatically provision the complex intertwined cloud infrastructure in a deterministic manner. There can be multiple reasons why you would want to invest efforts into writing code for automating the deployment of a database cluster:&lt;/p&gt;
+&lt;span class=&quot;caption text-muted&quot;&gt;Flow Diagram for Dynamically Updating Environment Variables&lt;/span&gt;&lt;/p&gt;
+&lt;h5 class=&quot;section-heading&quot;&gt;Demo&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a ConfigMap with environment variables KEY1=VAL1 and KEY2=VAL2&lt;/li&gt; 
+&lt;pre class=&quot;prettyprint&quot;&gt;
+kubectl apply -f https://raw.githubusercontent.com/itselavia/dynamic-update-configmap-env-vars/main/configmap.yaml
+&lt;/pre&gt;
+
+&lt;li&gt;Create a pod which refers the ConfigMap and mounts its contents to the /config directory inside the pod.&lt;/li&gt;
+&lt;pre class=&quot;prettyprint&quot;&gt;
+kubectl apply -f https://raw.githubusercontent.com/itselavia/dynamic-update-configmap-env-vars/main/pod.yaml
+&lt;/pre&gt;
+
+&lt;li&gt;Create a Service to expose the pod&lt;/li&gt; 
+&lt;pre class=&quot;prettyprint&quot;&gt;
+kubectl apply -f https://raw.githubusercontent.com/itselavia/dynamic-update-configmap-env-vars/main/service.yaml
+&lt;/pre&gt;
+
+&lt;li&gt;Create a test pod to access the application&lt;/li&gt; 
+&lt;pre class=&quot;prettyprint&quot;&gt;
+kubectl run curl-test --image=radial/busyboxplus:curl -i --tty --rm
+&lt;/pre&gt;
+
+&lt;li&gt;Access the application by querying for the value of KEY1&lt;/li&gt; 
+&lt;pre class=&quot;prettyprint&quot;&gt;
+curl http://env-svc:8080/getEnvValue?var=KEY1
+VAL1
+&lt;/pre&gt;
+
+&lt;li&gt;Edit the ConfigMap and change the value of KEY1&lt;/li&gt; 
+&lt;pre class=&quot;prettyprint&quot;&gt;
+kubectl edit cm env-vars
+&lt;/pre&gt;
+&lt;pre class=&quot;prettyprint&quot;&gt;
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: env-vars
+data:
+    KEY1: NEW_VAL1
+    KEY2: VAL2
+&lt;/pre&gt;
+
+&lt;li&gt;Wait for 30-60 seconds and query for the value of KEY1&lt;/li&gt; 
+&lt;pre class=&quot;prettyprint&quot;&gt;
+curl http://env-svc:8080/getEnvValue?var=KEY1
+NEW_VAL1
+&lt;/pre&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+Note: The time period for synchronization between API server and Kubelet is set using the &lt;a href=&quot;https://github.com/kubernetes/kubernetes/blob/b2b8c1f18d1056db23c1cd377d6dc3dd4fb4dcc1/staging/src/k8s.io/kubelet/config/v1beta1/types.go#L105&quot; target=&quot;_blank&quot;&gt;--sync-frequency&lt;/a&gt; parameter to kubelet config 
+&lt;/p&gt;</content><author><name>Akshay Elavia</name></author><summary type="html">It's a widely accepted practice to inject the environment variables into pods from ConfigMaps. This allows for more dynamic deployment of applications where the runtime properties need not be hardcoded into the application. Once the ConfigMap with the required key value pairs is created, all its entries can be used as environment variables for a pod. This can be configured as follows: apiVersion: v1 kind: Pod metadata: name: env-test-pod labels: app: env-test spec: containers: - name: env-test-container image: itselavia/dynamic-update-env envFrom: - configMapRef: name: env-vars But, there are some use cases where the the environment variables needs to be modified and the application needs to react to those changes. This creates a bit of an operational issue because Kubernetes does not automatically restart the pod or updates its environment variables if a referenced ConfigMap is updated. However, Kubernetes does update the volume mounts of the pod if the ConfigMap is mounted to the pod. So the basic idea is alongwith setting the environment variables using envFrom and configMapRef, we also mount the ConfigMap to the pod at a specific directory. This is configured as follows: apiVersion: v1 kind: Pod metadata: name: env-test-pod labels: app: env-test spec: containers: - name: env-test-container image: itselavia/dynamic-update-env envFrom: - configMapRef: name: env-vars volumeMounts: - mountPath: /config name: env-volume volumes: - name: env-volume configMap: name: env-vars</summary></entry><entry><title type="html">Automated deployment of MongoDB cluster to AWS using Terraform</title><link href="https://itselavia.github.io/2019/12/01/automated-mongodb-deployment/" rel="alternate" type="text/html" title="Automated deployment of MongoDB cluster to AWS using Terraform" /><published>2019-12-01T17:30:00+05:30</published><updated>2019-12-01T17:30:00+05:30</updated><id>https://itselavia.github.io/2019/12/01/automated-mongodb-deployment</id><content type="html" xml:base="https://itselavia.github.io/2019/12/01/automated-mongodb-deployment/">&lt;p&gt;Deploying a cluster is hard. Deploying a database cluster is harder. Deploying a database cluster repeatedly to the cloud is an unimaginable headache. Nowadays, IaC tools allows teams to automatically provision the complex intertwined cloud infrastructure in a deterministic manner. There can be multiple reasons why you would want to invest efforts into writing code for automating the deployment of a database cluster:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Performance testing your applications' access patterns by pointing them to your database&lt;/li&gt; 
 &lt;li&gt;Documenting the custom configurations made while setting up the database&lt;/li&gt;

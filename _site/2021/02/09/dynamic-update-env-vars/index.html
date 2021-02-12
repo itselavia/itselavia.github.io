@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A technical blog documenting topics about cloud, security and DevOps">
 
-    <title>About - Learning Orbit</title>
+    <title>Dynamically Update Pod's Environment Variables - Learning Orbit</title>
 
-    <link rel="canonical" href="https://itselavia.github.io/about/">
+    <link rel="canonical" href="https://itselavia.github.io/2021/02/09/dynamic-update-env-vars/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -84,33 +84,148 @@
 </nav>
 
 
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/about-bg.jpg')">
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/post-bg-14.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h1>About</h1>
-                    <hr class="small">
-                    <span class="subheading"></span>
+                <div class="post-heading">
+                    <h1>Dynamically Update Pod's Environment Variables</h1>
+                    
+                    <h2 class="subheading">Technique to update a pod's environment variables based on changes to the referenced ConfigMap</h2>
+                    
+                    <span class="meta">Posted by Akshay Elavia on February 9, 2021</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
-		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-			<p>I'm Akshay Elavia, a software guy, comedy nerd and spicy memes aficionado. I maintain this blog to document my learnings along my career. Also, it helps me polish my technical writing and diagramming skills which I feel is the most underrated quality for software professionals. The topics cover mainly cloud, security and DevOps technologies with a slight leaning towards infrastructure automation and containerization.</p>
-<p>I have worked in this domain in large and medium sized companies in India for over 4 years. Currently, I'm pursuing my Masters Degree in Software Engineering from San Jose State University.</p>
-<p>Please feel free to reach out to me on any of the platforms listed below regarding any particular post or feedback. I have relied heavily on blogs like these to learn new things while starting out, and I can't stress enough how instrumental they have been in solidifying my conceptual understanding. It's my attempt to give back to the community which has showered me with such great learning. Hope you find some of my writing helpful!</p>
-		</div>
-	</div>
-</div>
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<p>
+It's a widely accepted practice to inject the environment variables into pods from ConfigMaps. This allows for more dynamic deployment of applications where the runtime properties need not be hardcoded into the application. Once the ConfigMap with the required key value pairs is created, all its entries can be used as environment variables for a pod. This can be configured as follows: 
+<?prettify?> </p>
+<pre class="prettyprint">
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-test-pod
+  labels:
+    app: env-test
+spec:
+  containers:
+    - name: env-test-container
+      image: itselavia/dynamic-update-env
+      envFrom:
+        - configMapRef:
+            name: env-vars
+</pre>
+<p>
+But, there are some use cases where the the environment variables needs to be modified and the application needs to react to those changes. This creates a bit of an operational issue because Kubernetes does not automatically restart the pod or updates its environment variables if a referenced ConfigMap is updated.</p>
+<p>
+However, Kubernetes does update the volume mounts of the pod if the ConfigMap is mounted to the pod. So the basic idea is alongwith setting the environment variables using envFrom and configMapRef, we also mount the ConfigMap to the pod at a specific directory. This is configured as follows: 
+<?prettify?> </p>
+<pre class="prettyprint">
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-test-pod
+  labels:
+    app: env-test
+spec:
+  containers:
+    - name: env-test-container
+      image: itselavia/dynamic-update-env
+      envFrom:
+        - configMapRef:
+            name: env-vars
+      volumeMounts:
+        - mountPath: /config
+          name: env-volume
+  volumes:
+    - name: env-volume
+      configMap:
+        name: env-vars
+</pre>
+
+<p>
+We monitor the /config configuration directory for any changes. This example application uses <a href="https://github.com/fsnotify/fsnotify" target="_blank">fsnotify</a> which is a golang library which implements filesystem monitoring for many platforms. We also need to reprogram the application to monitor the configuration directory in the background and update the environment variables in the pod when any change event is received. The Go code snippet is shared below:
+<?prettify?> </p>
+<pre class="prettyprint">
+func main() {
+
+  watcher, err := fsnotify.NewWatcher()
+  if err != nil {
+    fmt.Println("cannot initialize Watcher ", err)
+  }
+  defer watcher.Close()
+
+  // watcher will monitor the files in a background goroutine
+  go func() {
+    for {
+      select {
+      // reload the environment variables whenever changes are made in the /config directory
+      case _, ok := &lt;-watcher.Events:
+        if !ok {
+          return
+        }
+        reloadEnvVars()
+      case err, ok := &lt;-watcher.Errors:
+        if !ok {
+          fmt.Println("error from Watcher: ", err)
+          return
+        }
+      }
+    }
+  }()
+
+  // monitor the /config directory
+  err = watcher.Add("/config/")
+  if err != nil {
+    fmt.Println("error adding directory to Watcher", err)
+  }
+}
+</pre>
+<p>
+The overall steps are depicted in the below diagram. The source code is available at <a href="https://github.com/itselavia/dynamic-update-configmap-env-vars" target="_blank">this GitHub repository</a>
+</p>
+<p><a href="#">
+    <img src="/img/flow-diagram.png" alt="Flow Diagram for Dynamically Updating Environment Variables" style="display: block;margin-left: auto;margin-right: auto;" />
+</a>
+<span class="caption text-muted">Flow Diagram for Dynamically Updating Environment Variables</span></p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/12/01/automated-mongodb-deployment/" data-toggle="tooltip" data-placement="top" title="Automated deployment of MongoDB cluster to AWS using Terraform">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- JustComments Div-->
+        <div
+            class="just-comments"
+            data-allowguests="true"
+            data-apikey="6463802b-5d5f-49d1-9352-5f4a8b56f2f6">
+        </div>
+
+    </div>
+</article>
 
 <hr>
+
 
     <!-- Footer -->
 <footer>

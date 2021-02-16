@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A technical blog documenting topics about cloud, security and DevOps">
+
+    <title>Automatically Deploy KubeEdge cluster on Google Cloud Platform - Learning Orbit</title>
+
+    <link rel="canonical" href="https://itselavia.github.io/2021/01/02/deploy-kubeedge-gcp/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- JustComments Script -->
+    <script async src="https://just-comments.com/w.js"></script>
+
+    <!-- Google AdSense Script -->
+    <script data-ad-client="ca-pub-7800920707119040" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    <!-- Pretty-Print Script-->
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
+    <style>
+        .prettyprint ol.linenums > li { list-style-type: decimal; }
+    </style>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="https://itselavia.github.io/feed.xml" title="Learning Orbit" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Learning Orbit</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                
+				
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/post-bg-03.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Automatically Deploy KubeEdge cluster on Google Cloud Platform</h1>
+                    
+                    <h2 class="subheading">An automated setup to deploy a n-node KubeEdge cluster along with a n-node Kubernetes cluster in Google Cloud</h2>
+                    
+                    <span class="meta">Posted by Akshay Elavia on January 2, 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<p>
+Kubernetes is slowly becoming the de-facto standard for managing workloads on large cluster of machines, especially in the cloud environment. Architectural principles of Kubernetes (like containerized workloads, efficient resource allocation and utilization, extensibility, remote deployment and management of applications) can be very well applied to Edge Computing. This is exactly what the <a href="https://kubeedge.io/en/" target="_blank">KubeEdge</a> project has implemented. According to the documentation, "KubeEdge is an open source system for extending native containerized application orchestration capabilities to hosts at Edge.It is built upon kubernetes and provides fundamental infrastructure support for network, app. deployment and metadata synchronization between cloud and edge".
+</p>
+<p>
+KubeEdge works in tandem with the Kubernetes control plane to manage the edge nodes. The edge nodes are devices like Raspberry Pi (or any Linux based SBC) which run the containerized applications. KubeEdge has two main components: Cloudcore and Edgecore. Cloudcore is the collection of 3 components (CloudHub, EdgeController and DeviceController) which interact with the Kubernetes API server and manages the communication with edge nodes. Edgecore runs on the edge devices which syncs the device changes with cloud and manages the containerized applications.  
+</p>
+<p>
+To quicly start experimenting with KubeEdge, we need not actually procure hardware like Raspberry Pi. The Edgecore can be executed on modest virtual machines so that we can verify our applications/architecture/workflow before deploying them to physical devices. The following diagram shows the resources we are going to create for our test KubeEdge cluster:
+</p>
+<p><a href="#">
+    <img src="/img/deploy-kubeedge-gcp.png" alt="Architecture Diagram of KubeEdge Cluster Deployment" style="display: block;margin-left: auto;margin-right: auto;" />
+</a>
+<span class="caption text-muted">Architecture Diagram of KubeEdge Cluster Deployment</span></p>
+<h5 class="section-heading">Infrastructure Components</h5>
+<p>
+<a href="https://github.com/itselavia/kubeedge-cluster-gcp" target="_blank">This GitHub repository</a> contains the Terraform code to create this architecture. There are Terraform modules are written:
+<ul>
+<li>VPC</li>
+The module creates a VPC with 2 subnetworks, one for the cloud components and the other for the edge components
+<li>Config Bucket</li>
+This is the bucket stores the configuration files and tokens which the Kubernetes and KubeEdge clusters need to share among each other. When the Kubernetes control plane is initialzed, the kubeconfig file is uploaded to the config bucket. The kubeconfig file is later downloaded by Cloudcore during KubeEdge cluster deployment, and also to the end user's machine from where Terraform is applied. Cloudcore also uploads the keadm token to the config bucket, which is later downloaded by the Edgecore during installation.
+<li>Kubernetes Cluster</li>
+The Kubernetes cluster consists of 1 control plane node and n worker nodes. The cluster is created using kubeadm. These shell scripts install the cluster:
+<ul>
+<li><p><a href="https://github.com/itselavia/kubeedge-cluster-gcp/blob/master/modules/kubernetes/scripts/controlplane_init.sh">controlplane_init.sh: </a> This will install Docker, kubectl, and kubeadm on the Kubernetes control plane node. It also initializes the control plane, install the Flannel pod network add on, and copies the generated kube config file to the config bucket</p></li>
+<li><p><a href="https://github.com/itselavia/kubeedge-cluster-gcp/blob/master/modules/kubernetes/scripts/worker_init.sh">worker_init.sh: </a> This will install Docker, kubectl and kubeadm on all the Kubernetes worker nodes. It also waits for the control plane to be available and joins the worker nodes to the cluster</p></li>
+</ul>
+<li>KubeEdge Cluster</li>
+The KubeEdge cluster consists of 1 Cloudcore node which connects with the Kubernetes control plane. And n Edgecore nodes which represent edge devices. These shell scripts install the KubeEdge cluster:
+<ul>
+<li><p><a href="https://github.com/itselavia/kubeedge-cluster-gcp/blob/master/modules/kubeedge/scripts/cloudcore_init.sh">cloudcore_init.sh: </a> This will download the kube config file from the config bucket, install keadm utility and initialize the KubeEdge cloudcore. It also uploads the keadm join token to the config bucket</p></li>
+<li><p><a href="https://github.com/itselavia/kubeedge-cluster-gcp/blob/master/modules/kubeedge/scripts/edgecore_init.sh">edgecore_init.sh: </a> This will install Docker and keadm on all the edge nodes. It waits for the KubeEdge cloudcore to be available and joins the edge nodes to the cluster</p></li>
+</ul>
+</ul>
+</p>
+<pre class="prettyprint">
+provider "google" {
+  credentials = file(var.credentials_file_location)
+  project     = var.project_name
+  region      = var.region
+  zone        = var.zone
+}
+
+module "vpc" {
+  source   = "./modules/vpc"
+  vpc_name = var.vpc_name
+  region   = var.region
+}
+
+module "config_bucket" {
+  source       = "./modules/config_bucket"
+  project_name = var.project_name
+}
+
+module "kubernetes" {
+  source                = "./modules/kubernetes"
+  vpc_name              = var.vpc_name
+  subnetwork_name       = module.vpc.subnetwork_1_name
+  zone                  = var.zone
+  k8s_worker_node_count = var.k8s_worker_node_count
+  config_bucket         = module.config_bucket.config_bucket_url
+}
+
+module "kubeedge" {
+  source                = "./modules/kubeedge"
+  config_bucket         = module.config_bucket.config_bucket_url
+  vpc_name              = var.vpc_name
+  zone                  = var.zone
+  subnetwork_name       = module.vpc.subnetwork_2_name
+  edge_node_count       = var.edge_node_count
+}
+</pre>
+<h5 class="section-heading">Steps to Deploy the Cluster</h5>
+<p>
+<ol>
+<li>Create an account on Google Cloud Platform and create a project. This project is where all the infrastructure resources will be created.</li>
+<li><p>Go to the <a href="https://console.cloud.google.com/apis/credentials/serviceaccountkey/" target="_blank">service account key page in the Cloud Console</a> and create a new service account with Project -&gt; Owner role. Download the credentials file in JSON format.</p></li>
+<li><p>Enable the GCP APIs: Storage, Compute Engine, VPC, IAM. If you're enabling the APIs for the first time, wait ~20-30 minutes before applying Terraform. The GCP API activation does not take immediate effect.</p></li>
+<li><p>Clone <a href="https://github.com/itselavia/kubeedge-cluster-gcp/" target="_blank">this GitHub repository</a></p></li>
+<li><p>cd in to the repository</p></li>
+<li><p>Edit the file named “terraform.tfvars” with the following required parameters:
+<ol>
+<li>region: the GCP region where all the resources will be created</li>
+<li>vpc_name: the name for the virtual private cloud network</li>
+<li>zone: the GCP zone where all the resources will be created. The zone must be in the same region as declared in step 6.1</li>
+<li>project_name: name of the GCP project which was created in step 1</li>
+<li>k8s_worker_node_count: number of worker nodes to be created for the Kubernetes cluster</li>
+<li>edge_node_count: number of edge nodes to be created for the KubeEdge cluster</li>
+<li>credentials_file_location: path to the JSON credentials file downloaded in Step 2</li>
+</ol>
+Example terraform.tfvars file:
+<pre class="prettyprint">
+region                    = "us-west2"
+vpc_name                  = "kubeedge-infra"
+zone                      = "us-west2-a"
+project_name              = "deploy-kubeedge-gcp"
+k8s_worker_node_count     = 2
+edge_node_count           = 4
+credentials_file_location = "~/Downloads/deploy-kubeedge-gcp-19242787b5a4.json"
+</pre>
+</p>
+</li>
+<li><p>Install Terraform by following the steps mentioned in the <a href="https://learn.hashicorp.com/tutorials/terraform/install-cli/" target="_blank">official documentation</a></p></li>
+<li><p>Run <mark>terraform init</mark> to initialize the and import the Terraform modules into the working directory</p></li>
+<li><p>Run <mark>terraform plan</mark> to view all the infrastructure components Terraform will create in Google Cloud</p></li>
+<li><p>Run <mark>terraform apply --auto-approve</mark> which will start creating the cluster infrastructure on GCP.</p></li>
+<li><p>The kubeconfig file for the Kubernetes cluster is downloaded to modules/kubernetes/config. Run the following command to setup KUBECONFIG
+<pre class="prettyprint">
+export KUBECONFIG=`pwd`/modules/kubernetes/config
+</pre>
+</p>
+</li>
+<li><p>Run <mark>kubectl get nodes</mark> to see the worker nodes and edge nodes of the cluster</p></li>
+<a href="#">
+    <img src="/img/kubeedge-get-nodes.png" alt="kubectl get nodes" style="display: block;margin-left: auto;margin-right: auto;" />
+</a>
+<li><p>If the nodes are not visible, it’s possible that the cluster setup is still in progress. To view the logs for cluster setup, ssh into the node via the GCP Virtual Machines UI, and tail the /var/log/user-data.log file on any node.</p></li>
+<li><p>If you want to add or remove any nodes from the existing cluster, simply edit the “terraform.tfvars” file with desired values for variables <mark>k8s_worker_node_count</mark> or/and <mark>edge_node_count</mark> and run <mark>terraform apply --auto-approve</mark></p></li>
+<li><p>Login to the GCP Console to view the created resources
+<a href="#">
+    <img src="/img/kubeedge-gcp-console.png" alt="Resources created in GCP" style="display: block;margin-left: auto;margin-right: auto;" />
+</a>
+</p>
+</li>
+</ol>
+</p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/12/01/automated-mongodb-deployment/" data-toggle="tooltip" data-placement="top" title="Automated deployment of MongoDB cluster to AWS using Terraform">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/02/09/dynamic-update-env-vars/" data-toggle="tooltip" data-placement="top" title="Dynamically Update Pod's Environment Variables">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- JustComments Div-->
+        <div
+            class="just-comments"
+            data-allowguests="true"
+            data-apikey="6463802b-5d5f-49d1-9352-5f4a8b56f2f6">
+        </div>
+
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://in.linkedin.com/in/akshay-elavia-30969919" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/Munchin_Jughead" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://github.com/itselavia" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.facebook.com/akshay.elavia" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:akshay.elavia@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+    
+
+
+</body>
+
+</html>

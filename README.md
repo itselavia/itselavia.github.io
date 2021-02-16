@@ -5,3 +5,4 @@
 - ```jekyll serve --watch``` locally to see the changes
 - ```jekyll build```
 - push the changes
+- visit https://itselavia.github.io to view the post over the Internet

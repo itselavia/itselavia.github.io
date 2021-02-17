@@ -31,7 +31,7 @@ header-img: "img/post-bg-12.jpg"
 
 <p>All the source code is available at <a href="https://github.com/itselavia/mongodb-terraform-deployment">this GitHub repository.</a> The code is structured as different Terraform modules such as VPC, JumpBox, MongoDB Cluster, etc. You can visit the repository for installation prerequisites and instructions on how to run the project. Here's a snippet of the main.tf file which utilizes all the Terraform modules:</p>
 
-<?prettify?>
+
 <pre class="prettyprint linenums">
 module "vpc" {
   source   = "./vpc"
@@ -71,7 +71,7 @@ module "mongodb_cluster" {
 
 <p>The MongoDB cluster module takes in a lot of configurable parameters which can be supplied by the terraform.tfvars file:</p>
 
-<?prettify?>
+
 <pre class="prettyprint linenums">
 vpc_name            = "mongo_vpc"
 replica_set_name    = "mongoRs"
@@ -87,7 +87,7 @@ secondary_node_type = "t2.micro"
 
 <p>The main.tf file for the MongoDB cluster module contains the code for creating the resources like EC2 instances, IAM policies, Security Groups, etc. Using Terraform's <a href="https://www.terraform.io/docs/provisioners/file.html">file provisioner</a>, certain scripts and files (like the private key file needed to be shared by all the participating nodes) are uploaded to the instances while creating them. But wait, how can Terraform upload a file from your laptop to an instance launched in an AWS private subnet? Check out the nifty "bastion_host" parameter in the connection block: </p>
 
-<?prettify?>
+
 <pre class="prettyprint linenums">
 provisioner "file" {
     source      = "${path.module}/keyFile"
@@ -106,7 +106,7 @@ provisioner "file" {
 </pre>
 
 <p>Here's a snippet for creating the Secondary nodes. The "count" parameter (passed by the user) controls how many nodes to create. The instance is placed in any of the 3 private subnets in a round-robin manner.</p>
-<?prettify?>
+
 <pre class="prettyprint linenums">
 resource "aws_instance" "mongo_secondary" {
   count                  = "${var.num_secondary_nodes}"
@@ -130,7 +130,7 @@ resource "aws_instance" "mongo_secondary" {
 
 <p>The userdata shell script contains the bulk of the configuration. It scans the AWS environment for the cluster members and configures each instance with the private IPs of other members. This is accomplished by using the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html">EC2 Instance Metadata Service.</a> Also, each instance has a Tag attached to it which helps to identify whether it's a Primary or Secondary node. Here are a few commands from the userdata shell script which creates MongoDB configuration and service files:</p>
 
-<?prettify?>
+
 <pre class="prettyprint linenums">
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 

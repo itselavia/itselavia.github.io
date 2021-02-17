@@ -9,7 +9,7 @@ header-img: "img/post-bg-14.jpg"
 
 <p>
 It's a widely accepted practice to inject the environment variables into pods from ConfigMaps. This allows for more dynamic deployment of applications where the runtime properties need not be hardcoded into the application. Once the ConfigMap with the required key value pairs is created, all its entries can be used as environment variables for a pod. This can be configured as follows: 
-<?prettify?> </p>
+ </p>
 <pre class="prettyprint">
 apiVersion: v1
 kind: Pod
@@ -29,7 +29,7 @@ spec:
 But, there are some use cases where the the environment variables needs to be modified and the application needs to react to those changes. This creates a bit of an operational issue because Kubernetes does not automatically restart the pod or updates its environment variables if a referenced ConfigMap is updated.</p>
 <p>
 However, Kubernetes does update the volume mounts of the pod if the ConfigMap is mounted to the pod. So the basic idea is alongwith setting the environment variables using envFrom and configMapRef, we also mount the ConfigMap to the pod at a specific directory. This is configured as follows: 
-<?prettify?> </p>
+ </p>
 <pre class="prettyprint">
 apiVersion: v1
 kind: Pod
@@ -55,7 +55,7 @@ spec:
 
 <p>
 We monitor the /config configuration directory for any changes. This example application uses <a href="https://github.com/fsnotify/fsnotify" target="_blank">fsnotify</a> which is a golang library which implements filesystem monitoring for many platforms. We also need to reprogram the application to monitor the configuration directory in the background and update the environment variables in the pod when any change event is received. The Go code snippet is shared below:
-<?prettify?> </p>
+ </p>
 <pre class="prettyprint">
 func main() {
 

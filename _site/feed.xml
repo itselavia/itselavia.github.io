@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://itselavia.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://itselavia.github.io/" rel="alternate" type="text/html" /><updated>2021-02-16T08:19:23-08:00</updated><id>https://itselavia.github.io/feed.xml</id><title type="html">Learning Orbit</title><subtitle>A technical blog documenting topics about cloud, security and DevOps</subtitle><entry><title type="html">Dynamically Update Pod’s Environment Variables</title><link href="https://itselavia.github.io/2021/02/09/dynamic-update-env-vars/" rel="alternate" type="text/html" title="Dynamically Update Pod’s Environment Variables" /><published>2021-02-09T04:00:00-08:00</published><updated>2021-02-09T04:00:00-08:00</updated><id>https://itselavia.github.io/2021/02/09/dynamic-update-env-vars</id><content type="html" xml:base="https://itselavia.github.io/2021/02/09/dynamic-update-env-vars/">&lt;p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://itselavia.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://itselavia.github.io/" rel="alternate" type="text/html" /><updated>2021-02-17T07:38:10-08:00</updated><id>https://itselavia.github.io/feed.xml</id><title type="html">Learning Orbit</title><subtitle>A technical blog documenting topics about cloud, security and DevOps</subtitle><entry><title type="html">Dynamically Update Pod’s Environment Variables</title><link href="https://itselavia.github.io/2021/02/09/dynamic-update-env-vars/" rel="alternate" type="text/html" title="Dynamically Update Pod’s Environment Variables" /><published>2021-02-09T04:00:00-08:00</published><updated>2021-02-09T04:00:00-08:00</updated><id>https://itselavia.github.io/2021/02/09/dynamic-update-env-vars</id><content type="html" xml:base="https://itselavia.github.io/2021/02/09/dynamic-update-env-vars/">&lt;p&gt;
 It's a widely accepted practice to inject the environment variables into pods from ConfigMaps. This allows for more dynamic deployment of applications where the runtime properties need not be hardcoded into the application. Once the ConfigMap with the required key value pairs is created, all its entries can be used as environment variables for a pod. This can be configured as follows: 
-&lt;?prettify?&gt; &lt;/p&gt;
+ &lt;/p&gt;
 &lt;pre class=&quot;prettyprint&quot;&gt;
 apiVersion: v1
 kind: Pod
@@ -20,7 +20,7 @@ spec:
 But, there are some use cases where the the environment variables needs to be modified and the application needs to react to those changes. This creates a bit of an operational issue because Kubernetes does not automatically restart the pod or updates its environment variables if a referenced ConfigMap is updated.&lt;/p&gt;
 &lt;p&gt;
 However, Kubernetes does update the volume mounts of the pod if the ConfigMap is mounted to the pod. So the basic idea is alongwith setting the environment variables using envFrom and configMapRef, we also mount the ConfigMap to the pod at a specific directory. This is configured as follows: 
-&lt;?prettify?&gt; &lt;/p&gt;
+ &lt;/p&gt;
 &lt;pre class=&quot;prettyprint&quot;&gt;
 apiVersion: v1
 kind: Pod
@@ -46,7 +46,7 @@ spec:
 
 &lt;p&gt;
 We monitor the /config configuration directory for any changes. This example application uses &lt;a href=&quot;https://github.com/fsnotify/fsnotify&quot; target=&quot;_blank&quot;&gt;fsnotify&lt;/a&gt; which is a golang library which implements filesystem monitoring for many platforms. We also need to reprogram the application to monitor the configuration directory in the background and update the environment variables in the pod when any change event is received. The Go code snippet is shared below:
-&lt;?prettify?&gt; &lt;/p&gt;
+ &lt;/p&gt;
 &lt;pre class=&quot;prettyprint&quot;&gt;
 func main() {
 
@@ -288,7 +288,6 @@ export KUBECONFIG=`pwd`/modules/kubernetes/config
 
 &lt;p&gt;All the source code is available at &lt;a href=&quot;https://github.com/itselavia/mongodb-terraform-deployment&quot;&gt;this GitHub repository.&lt;/a&gt; The code is structured as different Terraform modules such as VPC, JumpBox, MongoDB Cluster, etc. You can visit the repository for installation prerequisites and instructions on how to run the project. Here's a snippet of the main.tf file which utilizes all the Terraform modules:&lt;/p&gt;
 
-&lt;p&gt;&amp;lt;?prettify?&amp;gt;&lt;/p&gt;
 &lt;pre class=&quot;prettyprint linenums&quot;&gt;
 module &quot;vpc&quot; {
   source   = &quot;./vpc&quot;
@@ -328,7 +327,6 @@ module &quot;mongodb_cluster&quot; {
 
 &lt;p&gt;The MongoDB cluster module takes in a lot of configurable parameters which can be supplied by the terraform.tfvars file:&lt;/p&gt;
 
-&lt;p&gt;&amp;lt;?prettify?&amp;gt;&lt;/p&gt;
 &lt;pre class=&quot;prettyprint linenums&quot;&gt;
 vpc_name            = &quot;mongo_vpc&quot;
 replica_set_name    = &quot;mongoRs&quot;
@@ -344,7 +342,6 @@ secondary_node_type = &quot;t2.micro&quot;
 
 &lt;p&gt;The main.tf file for the MongoDB cluster module contains the code for creating the resources like EC2 instances, IAM policies, Security Groups, etc. Using Terraform's &lt;a href=&quot;https://www.terraform.io/docs/provisioners/file.html&quot;&gt;file provisioner&lt;/a&gt;, certain scripts and files (like the private key file needed to be shared by all the participating nodes) are uploaded to the instances while creating them. But wait, how can Terraform upload a file from your laptop to an instance launched in an AWS private subnet? Check out the nifty &quot;bastion_host&quot; parameter in the connection block: &lt;/p&gt;
 
-&lt;p&gt;&amp;lt;?prettify?&amp;gt;&lt;/p&gt;
 &lt;pre class=&quot;prettyprint linenums&quot;&gt;
 provisioner &quot;file&quot; {
     source      = &quot;${path.module}/keyFile&quot;
@@ -363,7 +360,7 @@ provisioner &quot;file&quot; {
 &lt;/pre&gt;
 
 &lt;p&gt;Here's a snippet for creating the Secondary nodes. The &quot;count&quot; parameter (passed by the user) controls how many nodes to create. The instance is placed in any of the 3 private subnets in a round-robin manner.&lt;/p&gt;
-&lt;p&gt;&amp;lt;?prettify?&amp;gt;&lt;/p&gt;
+
 &lt;pre class=&quot;prettyprint linenums&quot;&gt;
 resource &quot;aws_instance&quot; &quot;mongo_secondary&quot; {
   count                  = &quot;${var.num_secondary_nodes}&quot;
@@ -387,7 +384,6 @@ resource &quot;aws_instance&quot; &quot;mongo_secondary&quot; {
 
 &lt;p&gt;The userdata shell script contains the bulk of the configuration. It scans the AWS environment for the cluster members and configures each instance with the private IPs of other members. This is accomplished by using the &lt;a href=&quot;https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html&quot;&gt;EC2 Instance Metadata Service.&lt;/a&gt; Also, each instance has a Tag attached to it which helps to identify whether it's a Primary or Secondary node. Here are a few commands from the userdata shell script which creates MongoDB configuration and service files:&lt;/p&gt;
 
-&lt;p&gt;&amp;lt;?prettify?&amp;gt;&lt;/p&gt;
 &lt;pre class=&quot;prettyprint linenums&quot;&gt;
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 

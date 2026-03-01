@@ -1,0 +1,410 @@
+/* Learning Orbit — style.css
+   Replaces Bootstrap 3 + clean-blog.css with modern CSS.
+   Design credit: Clean Blog by Start Bootstrap (MIT)
+   -------------------------------------------------- */
+
+/* ==================
+   RESET & BASE
+================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Lora', 'Times New Roman', serif;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #404040;
+}
+
+/* ==================
+   TYPOGRAPHY
+================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  margin-top: 0;
+}
+
+p {
+  margin: 30px 0;
+}
+
+p a {
+  text-decoration: underline;
+}
+
+a {
+  color: #404040;
+}
+
+a:hover, a:focus {
+  color: #0085a1;
+}
+
+a img:hover, a img:focus {
+  cursor: zoom-in;
+}
+
+blockquote {
+  color: #808080;
+  font-style: italic;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Code blocks — smaller than prose, let syntax.css handle colors/bg */
+pre, pre code {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Inline code */
+code {
+  font-size: 14px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: #f4f4f4;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+/* <mark> is used in posts as inline command highlighting */
+mark {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 14px;
+  background: #f4f4f4;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: #333;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 30px 0;
+}
+
+hr.small {
+  max-width: 100px;
+  border-width: 4px;
+  border-color: white;
+  margin: 15px auto;
+}
+
+::selection {
+  color: white;
+  background: #0085a1;
+  text-shadow: none;
+}
+
+/* ==================
+   LAYOUT
+================== */
+
+.container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==================
+   NAVIGATION
+================== */
+
+nav.site-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  height: 60px;
+}
+
+nav.site-nav a.brand {
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+}
+
+nav.site-nav a.brand:hover,
+nav.site-nav a.brand:focus {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+nav.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 4px;
+}
+
+nav.site-nav ul a {
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 16px;
+  display: block;
+}
+
+nav.site-nav ul a:hover,
+nav.site-nav ul a:focus {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ==================
+   HERO / INTRO HEADER
+================== */
+
+.intro-header {
+  background: no-repeat center center;
+  background-color: #808080;
+  background-size: cover;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+/* All heading sections inside hero */
+.intro-header .site-heading,
+.intro-header .post-heading,
+.intro-header .page-heading {
+  padding: 130px 24px 80px;
+  color: white;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .intro-header .site-heading,
+  .intro-header .post-heading,
+  .intro-header .page-heading {
+    padding: 180px 24px 120px;
+  }
+}
+
+/* Site/page headings: centered */
+.intro-header .site-heading,
+.intro-header .page-heading {
+  text-align: center;
+}
+
+.intro-header .site-heading h1,
+.intro-header .page-heading h1 {
+  font-size: 50px;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .intro-header .site-heading h1,
+  .intro-header .page-heading h1 {
+    font-size: 80px;
+  }
+}
+
+/* Post heading: left-aligned */
+.intro-header .post-heading h1 {
+  font-size: 35px;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .intro-header .post-heading h1 {
+    font-size: 55px;
+  }
+}
+
+.intro-header .subheading {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 300;
+  display: block;
+  margin: 10px 0 0;
+  color: white;
+}
+
+.intro-header .post-heading .subheading {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 10px 0 30px;
+}
+
+@media (min-width: 768px) {
+  .intro-header .post-heading .subheading {
+    font-size: 30px;
+  }
+}
+
+.intro-header .meta {
+  font-family: 'Lora', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 20px;
+  display: block;
+  color: white;
+}
+
+.intro-header .meta a {
+  color: white;
+}
+
+/* ==================
+   POST LIST (HOMEPAGE)
+================== */
+
+.post-preview {
+  padding: 10px 0;
+}
+
+.post-preview > a {
+  color: #404040;
+  text-decoration: none;
+}
+
+.post-preview > a:hover,
+.post-preview > a:focus {
+  color: #0085a1;
+  text-decoration: none;
+}
+
+.post-preview .post-title {
+  font-size: 30px;
+  margin: 30px 0 10px;
+}
+
+@media (min-width: 768px) {
+  .post-preview .post-title {
+    font-size: 36px;
+  }
+}
+
+.post-preview .post-subtitle {
+  font-weight: 300;
+  margin: 0 0 10px;
+}
+
+.post-preview .post-meta {
+  color: #808080;
+  font-size: 18px;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ==================
+   PAGER (PREV / NEXT)
+================== */
+
+.pager {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pager li > a {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 10px 16px;
+  background: white;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #404040;
+  display: inline-block;
+}
+
+@media (min-width: 768px) {
+  .pager li > a {
+    padding: 15px 25px;
+  }
+}
+
+.pager li > a:hover,
+.pager li > a:focus {
+  color: white;
+  background: #0085a1;
+  border-color: #0085a1;
+}
+
+.pager li.next {
+  margin-left: auto;
+}
+
+/* ==================
+   FOOTER
+================== */
+
+footer {
+  padding: 50px 0 65px;
+  text-align: center;
+}
+
+footer .social-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+footer .social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #404040;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+footer .social-links a:hover {
+  background: #0085a1;
+}
+
+footer .social-links svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+/* ==================
+   CAPTIONS
+================== */
+
+.caption {
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  font-style: italic;
+  margin: 0;
+  display: block;
+}
+
+/* ==================
+   SECTION HEADING
+================== */
+
+.section-heading {
+  font-size: 36px;
+  font-weight: 700;
+}

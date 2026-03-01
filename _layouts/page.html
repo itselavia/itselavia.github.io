@@ -10,7 +10,7 @@ layout: default
   </div>
 </header>
 
-<main class="container">
+<main class="{% if page.wide %}container container--wide{% else %}container{% endif %}">
   {{ content }}
 </main>
 

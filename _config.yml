@@ -1,15 +1,12 @@
 # Site settings
-title: Learning Orbit
+title: Agentic
 header-img: img/home-bg.jpg
 email: akshay.elavia@gmail.com
-copyright_name: Akshay Elavia
-description: "A technical blog documenting topics about cloud, security and DevOps"
+description: "Writing about AI, software engineering, and building systems that matter"
 baseurl: ""
 url: "https://itselavia.github.io"
-twitter_username: Munchin_Jughead
+twitter_username: akshay_elavia
 github_username:  itselavia
-facebook_username:  akshay.elavia
-email_username:  akshay.elavia@gmail.com
 linkedin_username: akshay-elavia-30969919
 
 # Google Analytics

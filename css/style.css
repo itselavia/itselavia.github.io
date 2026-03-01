@@ -1,7 +1,41 @@
-/* Learning Orbit — style.css
-   Replaces Bootstrap 3 + clean-blog.css with modern CSS.
-   Design credit: Clean Blog by Start Bootstrap (MIT)
+/* Agentic — style.css
+   American Dynamism theme: warm cream + burnt amber
    -------------------------------------------------- */
+
+/* ==================
+   COLOR SYSTEM
+================== */
+
+:root {
+  /* Page backgrounds (light, editorial) */
+  --bg-surface:  #faf8f4;   /* body — warm cream */
+  --bg-card:     #f0ede6;   /* card backgrounds */
+  --bg-elevated: #e8e3d8;   /* subtle raise (inline code, inputs) */
+  --bg-hover:    #e0dbd0;   /* hover state on cards */
+
+  /* Dark surfaces (hero fallback, footer, code blocks) */
+  --bg-deep:     #1c1a17;   /* near-black ink — footer, hero fallback */
+  --bg-code:     #241f1a;   /* warm dark for pre/code blocks */
+
+  /* Text */
+  --text-primary:   #1c1a17;  /* near-black ink */
+  --text-secondary: #5a5550;  /* warm medium gray */
+  --text-tertiary:  #8a857e;  /* light warm gray — meta, captions */
+
+  /* Accent */
+  --accent:        #b45309;   /* burnt amber */
+  --accent-hover:  #92400e;   /* darker on hover (higher contrast) */
+  --accent-light:  #d97706;   /* lighter amber — hero hr, decorative */
+
+  /* Borders */
+  --border:       #d4cfc6;    /* warm light gray */
+  --border-strong: #b8b3aa;   /* slightly more visible */
+
+  /* Font stacks */
+  --font-serif: 'Lora', 'Times New Roman', serif;
+  --font-sans:  'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono:  'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
 
 /* ==================
    RESET & BASE
@@ -11,10 +45,11 @@
 
 body {
   margin: 0;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: var(--font-serif);
   font-size: 20px;
   line-height: 1.5;
-  color: #404040;
+  color: var(--text-primary);
+  background-color: var(--bg-surface);
 }
 
 /* ==================
@@ -22,9 +57,10 @@ body {
 ================== */
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   font-weight: 800;
   margin-top: 0;
+  color: var(--text-primary);
 }
 
 p {
@@ -36,11 +72,11 @@ p a {
 }
 
 a {
-  color: #404040;
+  color: var(--text-primary);
 }
 
 a:hover, a:focus {
-  color: #0085a1;
+  color: var(--accent);
 }
 
 a img:hover, a img:focus {
@@ -48,8 +84,11 @@ a img:hover, a img:focus {
 }
 
 blockquote {
-  color: #808080;
+  color: var(--text-secondary);
   font-style: italic;
+  border-left: 3px solid var(--accent);
+  padding-left: 20px;
+  margin-left: 0;
 }
 
 img {
@@ -57,49 +96,50 @@ img {
   height: auto;
 }
 
-/* Code blocks — smaller than prose, let syntax.css handle colors/bg */
+/* Code blocks — syntax.css handles colors/bg for pre */
 pre, pre code {
   font-size: 14px;
   line-height: 1.6;
 }
 
-/* Inline code */
+/* Inline code — light warm chip on the cream page */
 code {
   font-size: 14px;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-  background: #f4f4f4;
-  border: 1px solid #e0e0e0;
+  font-family: var(--font-mono);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
   border-radius: 3px;
   padding: 1px 5px;
+  color: var(--accent-hover);
 }
 
-/* <mark> is used in posts as inline command highlighting */
+/* <mark> used in posts as inline command highlighting */
 mark {
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 14px;
-  background: #f4f4f4;
-  border: 1px solid #e0e0e0;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
   border-radius: 3px;
   padding: 1px 5px;
-  color: #333;
+  color: var(--accent-hover);
 }
 
 hr {
   border: none;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border);
   margin: 30px 0;
 }
 
 hr.small {
   max-width: 100px;
   border-width: 4px;
-  border-color: white;
+  border-color: var(--accent-light);
   margin: 15px auto;
 }
 
 ::selection {
-  color: white;
-  background: #0085a1;
+  color: #faf8f4;
+  background: var(--accent);
   text-shadow: none;
 }
 
@@ -109,6 +149,12 @@ hr.small {
 
 .container {
   max-width: 780px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container--wide {
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -127,20 +173,23 @@ nav.site-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   height: 60px;
+  background: linear-gradient(to bottom, rgba(28, 26, 23, 0.75), transparent);
 }
 
 nav.site-nav a.brand {
   font-weight: 800;
-  font-size: 16px;
+  font-size: 18px;
   text-decoration: none;
   color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 nav.site-nav a.brand:hover,
 nav.site-nav a.brand:focus {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--accent-light);
 }
 
 nav.site-nav ul {
@@ -164,7 +213,7 @@ nav.site-nav ul a {
 
 nav.site-nav ul a:hover,
 nav.site-nav ul a:focus {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--accent-light);
 }
 
 /* ==================
@@ -173,27 +222,42 @@ nav.site-nav ul a:focus {
 
 .intro-header {
   background: no-repeat center center;
-  background-color: #808080;
+  background-color: var(--bg-deep);
   background-size: cover;
   margin-bottom: 50px;
   position: relative;
 }
 
-/* All heading sections inside hero */
+/* Warm dark overlay — keeps white text readable, eliminates cold blue */
+.intro-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(28, 26, 23, 0.60) 0%,
+    rgba(28, 26, 23, 0.82) 100%
+  );
+  z-index: 1;
+}
+
+/* All heading sections inside hero sit above overlay */
 .intro-header .site-heading,
 .intro-header .post-heading,
 .intro-header .page-heading {
-  padding: 130px 24px 80px;
+  padding: 150px 24px 90px;
   color: white;
   max-width: 780px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 @media (min-width: 768px) {
   .intro-header .site-heading,
   .intro-header .post-heading,
   .intro-header .page-heading {
-    padding: 180px 24px 120px;
+    padding: 200px 24px 130px;
   }
 }
 
@@ -207,12 +271,16 @@ nav.site-nav ul a:focus {
 .intro-header .page-heading h1 {
   font-size: 50px;
   color: white;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 @media (min-width: 768px) {
   .intro-header .site-heading h1,
   .intro-header .page-heading h1 {
     font-size: 80px;
+    letter-spacing: -1px;
   }
 }
 
@@ -220,6 +288,8 @@ nav.site-nav ul a:focus {
 .intro-header .post-heading h1 {
   font-size: 35px;
   color: white;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 @media (min-width: 768px) {
@@ -229,12 +299,13 @@ nav.site-nav ul a:focus {
 }
 
 .intro-header .subheading {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   font-size: 24px;
   font-weight: 300;
   display: block;
   margin: 10px 0 0;
   color: white;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .intro-header .post-heading .subheading {
@@ -250,12 +321,12 @@ nav.site-nav ul a:focus {
 }
 
 .intro-header .meta {
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-weight: 300;
   font-size: 20px;
   display: block;
-  color: white;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .intro-header .meta a {
@@ -263,45 +334,87 @@ nav.site-nav ul a:focus {
 }
 
 /* ==================
-   POST LIST (HOMEPAGE)
+   POST GRID (HOMEPAGE)
 ================== */
 
-.post-preview {
-  padding: 10px 0;
+.post-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
 }
 
-.post-preview > a {
-  color: #404040;
-  text-decoration: none;
-}
-
-.post-preview > a:hover,
-.post-preview > a:focus {
-  color: #0085a1;
-  text-decoration: none;
-}
-
-.post-preview .post-title {
-  font-size: 30px;
-  margin: 30px 0 10px;
-}
-
-@media (min-width: 768px) {
-  .post-preview .post-title {
-    font-size: 36px;
+@media (min-width: 640px) {
+  .post-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.post-preview .post-subtitle {
-  font-weight: 300;
-  margin: 0 0 10px;
+@media (min-width: 1024px) {
+  .post-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.post-preview .post-meta {
-  color: #808080;
-  font-size: 18px;
-  font-style: italic;
+.post-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.post-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(180, 83, 9, 0.12);
+}
+
+.post-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.post-card-link:hover,
+.post-card-link:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-card-image {
+  width: 100%;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--bg-elevated);
+}
+
+.post-card-content {
+  padding: 20px;
+}
+
+.post-card-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.post-card-subtitle {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.post-card-meta {
+  font-size: 13px;
+  color: var(--text-tertiary);
   margin: 0;
+  font-style: italic;
 }
 
 /* ==================
@@ -317,16 +430,16 @@ nav.site-nav ul a:focus {
 }
 
 .pager li > a {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   text-transform: uppercase;
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 1px;
   padding: 10px 16px;
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
   text-decoration: none;
-  color: #404040;
+  color: var(--text-primary);
   display: inline-block;
 }
 
@@ -339,8 +452,8 @@ nav.site-nav ul a:focus {
 .pager li > a:hover,
 .pager li > a:focus {
   color: white;
-  background: #0085a1;
-  border-color: #0085a1;
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .pager li.next {
@@ -354,6 +467,8 @@ nav.site-nav ul a:focus {
 footer {
   padding: 50px 0 65px;
   text-align: center;
+  background-color: var(--bg-deep);
+  border-top: 3px solid var(--accent);
 }
 
 footer .social-links {
@@ -372,19 +487,57 @@ footer .social-links a {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #404040;
+  background: #2e2b27;
   text-decoration: none;
   transition: background 0.2s;
 }
 
 footer .social-links a:hover {
-  background: #0085a1;
+  background: var(--accent);
 }
 
 footer .social-links svg {
   width: 20px;
   height: 20px;
   fill: white;
+}
+
+footer .footer-copy {
+  color: #8a857e;
+  font-size: 13px;
+  margin-top: 20px;
+  font-family: var(--font-sans);
+}
+
+/* ==================
+   ARTICLE CONTENT
+================== */
+
+article a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+article a:hover {
+  color: var(--accent-hover);
+}
+
+article h2 {
+  margin-top: 48px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+article h3 {
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+article img {
+  border-radius: 4px;
+  border: 1px solid var(--border);
 }
 
 /* ==================
@@ -398,6 +551,7 @@ footer .social-links svg {
   font-style: italic;
   margin: 0;
   display: block;
+  color: var(--text-secondary);
 }
 
 /* ==================
@@ -407,4 +561,16 @@ footer .social-links svg {
 .section-heading {
   font-size: 36px;
   font-weight: 700;
+}
+
+/* ==================
+   PRINT
+================== */
+
+@media print {
+  body { background: white; color: black; }
+  nav.site-nav, footer, .pager { display: none; }
+  .intro-header::before { display: none; }
+  a { color: black; }
+  pre { border-color: #ccc; background: #f8f8f8; color: black; }
 }

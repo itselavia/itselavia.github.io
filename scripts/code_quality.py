@@ -159,17 +159,21 @@ def check_or_format_files(repo_root: Path, fix: bool = False) -> list[str]:
     return errors
 
 
-def check_heavy_dependencies_and_assets(repo_root: Path) -> list[str]:
-    """Detect forbidden heavy frontend frameworks and oversized image assets."""
-    errors: list[str] = []
+def _check_image_sizes(repo_root: Path) -> list[str]:
+    """Verify all image assets under img/ stay within MAX_ASSET_BYTES."""
     img_dir = repo_root / "img"
-    if img_dir.is_dir():
-        for asset in sorted(img_dir.iterdir()):
-            if asset.is_file() and asset.stat().st_size > MAX_ASSET_BYTES:
-                errors.append(
-                    f"img/{asset.name}: asset size {asset.stat().st_size} bytes exceeds {MAX_ASSET_BYTES} bytes"
-                )
+    if not img_dir.is_dir():
+        return []
+    return [
+        f"img/{asset.name}: asset size {asset.stat().st_size} bytes exceeds {MAX_ASSET_BYTES} bytes"
+        for asset in sorted(img_dir.iterdir())
+        if asset.is_file() and asset.stat().st_size > MAX_ASSET_BYTES
+    ]
 
+
+def _check_forbidden_frameworks(repo_root: Path) -> list[str]:
+    """Verify templates and stylesheets do not reference heavy frontend frameworks."""
+    errors: list[str] = []
     for folder in ("_layouts", "_includes", "css"):
         target_dir = repo_root / folder
         if not target_dir.is_dir():
@@ -182,6 +186,11 @@ def check_heavy_dependencies_and_assets(repo_root: Path) -> list[str]:
                     f"{path.relative_to(repo_root)}: forbidden heavy framework reference (Bootstrap/jQuery)"
                 )
     return errors
+
+
+def check_heavy_dependencies_and_assets(repo_root: Path) -> list[str]:
+    """Detect forbidden heavy frontend frameworks and oversized image assets."""
+    return _check_image_sizes(repo_root) + _check_forbidden_frameworks(repo_root)
 
 
 def check_version_drift(repo_root: Path) -> list[str]:

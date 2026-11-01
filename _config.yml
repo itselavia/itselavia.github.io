@@ -23,6 +23,7 @@ exclude:
   - "AGENTS.md"
   - "CONTRIBUTING.md"
   - "LICENSE"
+  - "Makefile"
   - "Gemfile"
   - "Gemfile.lock"
   - "pyproject.toml"

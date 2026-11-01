@@ -12,7 +12,13 @@ import sys
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from scripts.code_quality import check_or_format_files, check_python_code_quality
+from scripts.code_quality import (
+    check_governance_configs,
+    check_heavy_dependencies_and_assets,
+    check_or_format_files,
+    check_python_code_quality,
+    check_version_drift,
+)
 from scripts.logger import get_logger
 
 POST_FILENAME_RE: re.Pattern[str] = re.compile(
@@ -28,7 +34,7 @@ GEM_DECL_RE: re.Pattern[str] = re.compile(r'^\s*gem\s+["\']([\w-]+)["\']')
 DOC_PATH_RE: re.Pattern[str] = re.compile(
     r"`((?:\.[\w.-]+|[\w-]+)(?:/[\w.*-]*)+"
     r"|\.[\w.-]+"
-    r"|(?:_config\.yml|Gemfile(?:\.lock)?|README\.md|AGENTS\.md|CONTRIBUTING\.md"
+    r"|(?:_config\.yml|Makefile|Gemfile(?:\.lock)?|README\.md|AGENTS\.md|CONTRIBUTING\.md"
     r"|pyproject\.toml|renovate\.json|health\.json|index\.html|about\.html|contact\.html|feed\.xml))`"
 )
 
@@ -44,6 +50,7 @@ REQUIRED_CONFIG_EXCLUDES: tuple[str, ...] = (
     "README.md",
     "AGENTS.md",
     "CONTRIBUTING.md",
+    "Makefile",
     "Gemfile",
     "Gemfile.lock",
     "pyproject.toml",
@@ -434,6 +441,9 @@ def validate_repository(
     errors.extend(check_templates_and_pages(repo_root))
     errors.extend(check_css(repo_root))
     errors.extend(check_python_code_quality(repo_root))
+    errors.extend(check_heavy_dependencies_and_assets(repo_root))
+    errors.extend(check_version_drift(repo_root))
+    errors.extend(check_governance_configs(repo_root))
 
     if check_docs or generate_docs:
         errors.extend(

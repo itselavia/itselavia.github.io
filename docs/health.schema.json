@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agentic Health Check Endpoint",
+  "description": "Schema for the static /health.json deployment verification endpoint.",
+  "type": "object",
+  "required": ["status", "site", "url", "environment", "posts_count"],
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["ok"]
+    },
+    "site": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^https://"
+    },
+    "environment": {
+      "type": "string",
+      "enum": ["development", "production"]
+    },
+    "posts_count": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

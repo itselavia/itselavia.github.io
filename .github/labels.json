@@ -1,0 +1,57 @@
+[
+  {
+    "name": "type: bug",
+    "color": "d73a4a",
+    "description": "Broken rendering, styling, build error, or broken asset"
+  },
+  {
+    "name": "type: feature",
+    "color": "0e8a16",
+    "description": "New capability, template improvement, or tooling enhancement"
+  },
+  {
+    "name": "type: content",
+    "color": "1d76db",
+    "description": "New blog post or editorial update in _posts/"
+  },
+  {
+    "name": "type: chore",
+    "color": "fef2c0",
+    "description": "Maintenance, CI, or dependency hygiene task"
+  },
+  {
+    "name": "priority: high",
+    "color": "b60205",
+    "description": "Critical production outage or broken deployment"
+  },
+  {
+    "name": "priority: medium",
+    "color": "fbca04",
+    "description": "Standard priority improvement or bug fix"
+  },
+  {
+    "name": "priority: low",
+    "color": "c5def5",
+    "description": "Minor polish or backlog idea"
+  },
+  {
+    "name": "area: content",
+    "color": "5319e7",
+    "description": "Post Markdown, frontmatter, or diagrams"
+  },
+  {
+    "name": "area: design",
+    "color": "e99695",
+    "description": "Layouts, HTML partials, and CSS stylesheets"
+  },
+  {
+    "name": "area: infra",
+    "color": "006b75",
+    "description": "GitHub Actions CI/CD, validation scripts, and devcontainer"
+  },
+  {
+    "name": "triage",
+    "color": "ededed",
+    "description": "Awaiting initial review and classification"
+  }
+]

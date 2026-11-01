@@ -5,8 +5,8 @@ Personal engineering blog by Akshay Elavia focused on AI, agentic architectures,
 ## Quick Start
 
 ```bash
-# Install Ruby gems (Ruby 3.2 specified in .ruby-version)
-bundle install
+# Single-command bootstrap (enables git hooks, installs gems if Bundler present, runs checks)
+make setup
 
 # Start local preview server with live reload at http://127.0.0.1:4000
 bundle exec jekyll serve --watch
@@ -21,8 +21,8 @@ JEKYLL_ENV=production bundle exec jekyll build --baseurl ""
 # Validate frontmatter, assets, CSS tokens, unused deps, formatting, and docs
 python3 scripts/validate_site.py --check-format --check-docs
 
-# Run unit and integration test suites
-python3 -m unittest discover -s tests -p "test_*.py" -v
+# Run unit and integration test suites with >=80% line coverage and flaky-test detection
+python3 scripts/run_tests.py --check-coverage --repeat 2
 
 # Enable pre-commit hook locally
 git config core.hooksPath .githooks

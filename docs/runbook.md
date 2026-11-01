@@ -45,8 +45,14 @@ If a broken layout or post reaches `master`:
    git revert HEAD --no-edit
    git push origin master
    ```
-2. Alternatively, trigger a manual redeploy of a known-good state via GitHub Actions:
+2. Alternatively, trigger an automated rollback to any known-good commit SHA via `Makefile` or GitHub Actions `workflow_dispatch`:
    ```bash
-   gh workflow run deploy.yml --ref master
+   make rollback REF=<known-good-sha>
+   # or directly with GitHub CLI:
+   gh workflow run deploy.yml -f rollback_ref=<known-good-sha>
    ```
 3. Confirm recovery via `https://itselavia.github.io/health.json`.
+
+### 3. Automated Incident Alerting (`alert_on_failure`)
+
+When a push to `master` fails in `validate`, `build`, or `deploy`, the `alert_on_failure` job in `.github/workflows/deploy.yml` automatically opens a GitHub Issue labeled `type: bug`, `priority: high`, `area: infra` linking the failing workflow run and commit SHA.

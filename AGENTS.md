@@ -26,8 +26,11 @@ python3 scripts/validate_site.py --check-format --check-docs
 # Regenerate post catalog documentation after adding or editing a post
 python3 scripts/validate_site.py --generate-docs
 
-# Run unit and integration test suites
-python3 -m unittest discover -s tests -p "test_*.py" -v
+# Single-command setup (hooks, dependencies, validation, coverage)
+make setup
+
+# Run unit and integration test suites with coverage (>=80%) and flaky detection
+python3 scripts/run_tests.py --check-coverage --repeat 2
 ```
 
 ## Environment Variables

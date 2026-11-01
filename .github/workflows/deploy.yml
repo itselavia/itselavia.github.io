@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -11,11 +13,27 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate site, formatting, unused dependencies, and docs
+        run: python3 scripts/validate_site.py --check-format --check-docs
+
+      - name: Run unit and integration tests with timing
+        run: python3 -m unittest discover -s tests -p "test_*.py" -v
+
   build:
+    needs: validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,15 +43,31 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
 
-      - uses: actions/configure-pages@v5
+      - name: Configure Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
 
-      - run: bundle exec jekyll build --baseurl ""
+      - name: Build Jekyll site
+        run: bundle exec jekyll build --baseurl "" --profile
         env:
           JEKYLL_ENV: production
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Verify built artifact and health endpoint
+        run: |
+          test -f _site/index.html
+          test -f _site/about/index.html
+          test -f _site/health.json
+          python3 -c 'import json, pathlib; data = json.loads(pathlib.Path("_site/health.json").read_text()); assert data["status"] == "ok" and data["posts_count"] >= 3'
+          test ! -e _site/AGENTS.md
+          test ! -e _site/tests
+          test ! -e _site/scripts
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
 
   deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     environment:

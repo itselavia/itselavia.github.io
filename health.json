@@ -1,0 +1,11 @@
+---
+layout: null
+permalink: /health.json
+---
+{
+  "status": "ok",
+  "site": {{ site.title | jsonify }},
+  "url": {{ site.url | jsonify }},
+  "environment": {{ jekyll.environment | jsonify }},
+  "posts_count": {{ site.posts | size }}
+}

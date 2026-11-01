@@ -1,0 +1,28 @@
+changelog:
+  exclude:
+    labels:
+      - duplicate
+      - invalid
+      - wontfix
+  categories:
+    - title: Features & Enhancements
+      labels:
+        - "type: feature"
+        - enhancement
+    - title: Content & Blog Posts
+      labels:
+        - "type: content"
+        - "area: content"
+    - title: Bug Fixes
+      labels:
+        - "type: bug"
+        - bug
+    - title: Infrastructure & Dependencies
+      labels:
+        - "type: chore"
+        - "area: infra"
+        - dependencies
+        - ruby
+    - title: Other Changes
+      labels:
+        - "*"

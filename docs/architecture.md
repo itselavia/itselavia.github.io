@@ -24,8 +24,8 @@ flowchart LR
 | Layouts & Partials | `_layouts/`, `_includes/` | HTML5 structure, responsive navigation, social footer, head metadata |
 | Content | `_posts/`, `index.html`, `about.html` | Markdown articles and top-level pages |
 | Styling | `css/style.css`, `css/syntax.css` | CSS custom properties, responsive grid, typography, Rouge code highlighting |
-| Health Probe | `health.json` | Static JSON health and build metadata endpoint served at `/health.json` |
-| Validation & QA | `scripts/`, `tests/` | Static analyzer, formatter, doc generator, structured logger, and test suite |
+| Health Probe | `health.json`, `docs/health.schema.json` | Static JSON health and build metadata endpoint served at `/health.json` |
+| Validation & QA | `scripts/`, `tests/`, `Makefile` | Static analyzer, formatter, doc generator, coverage runner, structured logger, and test suite |
 
 ## External Services & Dependencies
 

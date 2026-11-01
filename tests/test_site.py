@@ -8,13 +8,25 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from scripts.code_quality import check_or_format_files, check_python_code_quality
-from scripts.logger import JsonScrubbingFormatter, scrub_mapping, scrub_sensitive_text
+from scripts.code_quality import (
+    check_governance_configs,
+    check_heavy_dependencies_and_assets,
+    check_or_format_files,
+    check_python_code_quality,
+    check_version_drift,
+)
+from scripts.logger import (
+    JsonScrubbingFormatter,
+    get_logger,
+    scrub_mapping,
+    scrub_sensitive_text,
+)
 from scripts.validate_site import (
     check_config_and_gems,
     check_css,
     check_templates_and_pages,
     collect_and_validate_posts,
+    main as validate_main,
     parse_frontmatter,
     parse_simple_yaml_lists,
 )
@@ -201,6 +213,40 @@ class TestAdversarialValidators(unittest.TestCase):
                 f"Expected unused partial error, got: {errors}",
             )
 
+    def test_heavy_dependencies_and_version_drift_and_governance_checks(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            layouts = root / "_layouts"
+            layouts.mkdir()
+            (layouts / "default.html").write_text(
+                '<script src="jquery.min.js"></script>', encoding="utf-8"
+            )
+            heavy_errors = check_heavy_dependencies_and_assets(root)
+            self.assertTrue(any("forbidden heavy framework" in e for e in heavy_errors))
+
+            (root / ".ruby-version").write_text("3.2\n", encoding="utf-8")
+            (root / "pyproject.toml").write_text('python_version = "3.12"\n', encoding="utf-8")
+            (root / ".devcontainer").mkdir()
+            (root / ".devcontainer" / "devcontainer.json").write_text(
+                '{"ruby": "3.1", "py": "3.11"}\n', encoding="utf-8"
+            )
+            (root / ".github" / "workflows").mkdir(parents=True)
+            (root / ".github" / "workflows" / "deploy.yml").write_text(
+                "ruby-version: '3.2'\npython-version: '3.12'\n", encoding="utf-8"
+            )
+            drift_errors = check_version_drift(root)
+            self.assertEqual(len(drift_errors), 2)
+
+            gov_errors = check_governance_configs(root)
+            self.assertTrue(any(".github/labels.json" in e for e in gov_errors))
+
+    def test_validate_main_cli_entrypoint(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            exit_code = validate_main(["--root", tmp])
+            self.assertEqual(exit_code, 1)
+        logger = get_logger("agentic.test")
+        self.assertEqual(logger.name, "agentic.test")
+
 
 class TestLogScrubbing(unittest.TestCase):
     """Unit tests verifying sensitive tokens, keys, and emails are scrubbed from logs."""
@@ -231,10 +277,19 @@ class TestLogScrubbing(unittest.TestCase):
             exc_info=None,
         )
         record.context = scrub_mapping(
-            {"api_key": "raw_secret", "note": "contact test@example.com"}
+            {
+                "api_key": "raw_secret",
+                "note": "contact test@example.com",
+                "nested": {"token": "abc"},
+                "items": ["ghu_1234567890abcdef", 42],
+                "count": 3,
+            }
         )
         formatted = json.loads(formatter.format(record))
         self.assertEqual(formatted["context"]["api_key"], "[REDACTED]")
+        self.assertEqual(formatted["context"]["nested"]["token"], "[REDACTED]")
+        self.assertEqual(formatted["context"]["items"][0], "[REDACTED_GITHUB_TOKEN]")
+        self.assertEqual(formatted["context"]["count"], 3)
         self.assertIn("[REDACTED_EMAIL]@example.com", formatted["context"]["note"])
         self.assertIn("[REDACTED]", formatted["message"])
 

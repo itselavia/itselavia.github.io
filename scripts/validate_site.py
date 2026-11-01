@@ -18,16 +18,16 @@ from scripts.logger import get_logger
 POST_FILENAME_RE: re.Pattern[str] = re.compile(
     r"^(?P<date>\d{4}-\d{2}-\d{2})-(?P<slug>[a-z0-9-]+)\.(?:markdown|md)$"
 )
-INCLUDE_TAG_RE: re.Pattern[str] = re.compile(r"\{%\s*include\s+([a-zA-Z0-9_.-]+)")
+INCLUDE_TAG_RE: re.Pattern[str] = re.compile(r"\{%\s*include\s+([\w.-]+)")
 SITE_IMG_RE: re.Pattern[str] = re.compile(
-    r"\{\{\s*site\.baseurl\s*\}\}/(img/[A-Za-z0-9_./-]+)"
+    r"\{\{\s*site\.baseurl\s*\}\}/(img/[\w./-]+)"
 )
 CSS_VAR_DEF_RE: re.Pattern[str] = re.compile(r"(--[a-z0-9-]+)\s*:")
 CSS_VAR_USE_RE: re.Pattern[str] = re.compile(r"var\(\s*(--[a-z0-9-]+)\s*\)")
-GEM_DECL_RE: re.Pattern[str] = re.compile(r'^\s*gem\s+["\']([a-zA-Z0-9_-]+)["\']')
+GEM_DECL_RE: re.Pattern[str] = re.compile(r'^\s*gem\s+["\']([\w-]+)["\']')
 DOC_PATH_RE: re.Pattern[str] = re.compile(
-    r"`((?:\.[a-zA-Z0-9_.-]+|[a-zA-Z0-9_-]+)(?:/[a-zA-Z0-9_.*-]*)+"
-    r"|\.[a-zA-Z0-9_.-]+"
+    r"`((?:\.[\w.-]+|[\w-]+)(?:/[\w.*-]*)+"
+    r"|\.[\w.-]+"
     r"|(?:_config\.yml|Gemfile(?:\.lock)?|README\.md|AGENTS\.md|CONTRIBUTING\.md"
     r"|pyproject\.toml|renovate\.json|health\.json|index\.html|about\.html|contact\.html|feed\.xml))`"
 )

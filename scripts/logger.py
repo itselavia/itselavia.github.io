@@ -16,7 +16,7 @@ SENSITIVE_KEY_PATTERN: re.Pattern[str] = re.compile(
     r"(['\"]?[^\s,'\";]+['\"]?)"
 )
 GITHUB_TOKEN_PATTERN: re.Pattern[str] = re.compile(
-    r"\b(gh[pousr]_[A-Za-z0-9_]{8,}|github_pat_[A-Za-z0-9_]{8,})\b"
+    r"\b(gh[pousr]_\w{8,}|github_pat_\w{8,})\b"
 )
 AWS_KEY_PATTERN: re.Pattern[str] = re.compile(r"\b(AKIA[0-9A-Z]{16})\b")
 EMAIL_PATTERN: re.Pattern[str] = re.compile(

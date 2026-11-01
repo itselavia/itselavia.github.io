@@ -1,6 +1,36 @@
+# Jekyll & Ruby build artifacts
 .jekyll-cache/
+.sass-cache/
+.jekyll-metadata
 _site/
 vendor/
 .bundle/
+
+# Node / browser tooling
 node_modules/
 .playwright-mcp/
+
+# Environment variables & secrets (keep .env.example tracked)
+.env
+.env.*
+!.env.example
+
+# Python caches & virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# IDE & editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS metadata files
+.DS_Store
+Thumbs.db

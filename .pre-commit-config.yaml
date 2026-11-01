@@ -1,0 +1,13 @@
+repos:
+  - repo: local
+    hooks:
+      - id: validate-site-and-docs
+        name: Validate Jekyll site, formatting, and documentation
+        entry: python3 scripts/validate_site.py --check-format --check-docs
+        language: system
+        pass_filenames: false
+      - id: unit-and-integration-tests
+        name: Run unit and integration test suite
+        entry: python3 -m unittest discover -s tests -p "test_*.py"
+        language: system
+        pass_filenames: false

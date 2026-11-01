@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+set -eu
+
+python3 scripts/validate_site.py --check-format --check-docs
+python3 -m unittest discover -s tests -p "test_*.py"

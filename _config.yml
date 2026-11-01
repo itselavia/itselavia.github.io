@@ -18,6 +18,18 @@ markdown: kramdown
 highlighter: rouge
 permalink: pretty
 paginate: 3
-exclude: ["README.md", "vendor"]
+exclude:
+  - "README.md"
+  - "AGENTS.md"
+  - "CONTRIBUTING.md"
+  - "LICENSE"
+  - "Gemfile"
+  - "Gemfile.lock"
+  - "pyproject.toml"
+  - "renovate.json"
+  - "docs"
+  - "scripts"
+  - "tests"
+  - "vendor"
 
 plugins: [jekyll-paginate, jekyll-feed]
